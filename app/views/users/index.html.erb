@@ -1,9 +1,26 @@
-<%= link_to "Sign up", new_user_registration_path %>
+<head>
+    <%= javascript_importmap_tags %>
 
-<%= link_to "Create Post", new_post_path %>
+</head>
 
-<% @posts.each do |p| %>
-    <div>
-        <%= link_to p.title, post_path(p)%>
-    </div>
-<% end %>
+<body>
+    <% unless user_signed_in?%>
+        <%= link_to "Sign up", new_user_registration_path %>
+        <%= link_to "Log in", new_user_session_path %>
+    <% else %>
+        <%= link_to "Create Post", new_post_path %>
+        <%= button_to "Sign Out", destroy_user_session_path, method: :delete, data: { turbo: false } %>
+    <% end %>
+
+    <% @posts.each do |p| %>
+        <div>
+            <%= link_to p.title, post_path(p)%>
+        </div>
+    <% end %>
+
+    <% @users.each do |u| %>
+        <div>
+            <%= link_to u.username, user_path(u)%>
+        </div>
+    <% end %>
+</body>
