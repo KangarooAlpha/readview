@@ -1,2 +1,11 @@
 <%= @user.username %>
 <%= @user.email %>
+
+<% unless @user == current_user%>
+    <% unless current_user.followed_users.include?(@user) %>
+        <%= button_to "Follow #{@user.username}", followings_path(followed_id: @user.id), method: :post %>
+    <% else %>
+        <%= following = current_user.active_rel.find_by(followed_id: @user.id) %>
+        <%= button_to "Unfollow #{@user.username}", following_path(following), method: :delete %>
+    <% end %>
+<% end %>
