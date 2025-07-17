@@ -1,14 +1,9 @@
-<head>
-    <%= javascript_importmap_tags %>
-
-</head>
-
 <body>
     <% unless user_signed_in?%>
-        <%= link_to "Sign up", new_user_registration_path %>
-        <%= link_to "Log in", new_user_session_path %>
+        <%= button_to "Sign up", new_user_registration_path, method: :get %>
+        <%= button "Log in", new_user_session_path, method: :get %>
     <% else %>
-        <%= link_to "Create Post", new_post_path %>
+        <%= button_to "Create Post", new_post_path, method: :get %>
         <%= button_to "Sign Out", destroy_user_session_path, method: :delete, data: { turbo: false } %>
     <% end %>
     <h1>Posts</h1>
@@ -20,7 +15,7 @@
     <h1>Users</h1>
     <% @users.each do |u| %>
         <div>
-            <%= link_to u.username, user_path(u)%>
+            <%= link_to "@#{u.username}", user_path(u)%>
         </div>
     <% end %>
 </body>

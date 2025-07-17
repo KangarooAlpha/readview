@@ -1,4 +1,10 @@
 <%= @post.title %>
 <%= @post.body %>
+
+<%= button_to "Like", post_react_path(@post, reaction: "like")%>
+<%= @post.likes%>
+<%= button_to "Dislike", post_react_path(@post, reaction: "dislike")%>
+<%= @post.dislikes%>
+
 <h1>User</h1>
-<%= @post.user.username%>
+<%= link_to "@#{@post.user.username}", user_path(@post.user)%>

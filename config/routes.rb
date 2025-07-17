@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   devise_for :users
-  resources :posts
+  resources :posts do
+    post "react", to: "post_likings#react", as: :react
+  end
   resources :users
   resources :followings, only: [ :create, :destroy ]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
