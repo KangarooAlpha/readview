@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   devise_for :users
   resources :posts do
     post "react", to: "post_likings#react", as: :react
+    resources :comments
   end
   resources :users
   resources :followings, only: [ :create, :destroy ]

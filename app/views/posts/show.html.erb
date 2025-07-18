@@ -8,3 +8,15 @@
 
 <h1>User</h1>
 <%= link_to "@#{@post.user.username}", user_path(@post.user)%>
+
+<h1>Comments</h1>
+<%= render "comments/new"%>
+
+<% if @comments.present? %>
+    <% @comments.each do |c| %>
+        <div>
+            <%= "@#{c.user.username}:" %>
+            <%= c.body %>
+        </div>
+    <% end %>
+<% end %>
