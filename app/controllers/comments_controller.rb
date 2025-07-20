@@ -8,7 +8,9 @@ class CommentsController < ApplicationController
   def create
     @post = Post.find(params[:post_id])
     @body = params[:comment][:body]
-    @comment = @post.comments.build(user: current_user, body: @body)
+    @parent_id = params[:comment][:parent_id]
+
+    @comment = @post.comments.build(user: current_user, body: @body, parent_id: @parent_id)
 
     if @comment.save
       redirect_to @post

@@ -1,0 +1,11 @@
+<div class="comment">
+   <p><%= "@#{comment.user.username}"%> : <%= comment.body %></p>
+
+   <%= render partial: "comments/new", locals: {post: comment.post, parent_id: comment.id} %>
+
+   <% comment.replies.each do |c|%>
+   <div class="comment nested", style="margin-left: 20px;">
+        <%= render partial: "comments/comment", object: c %>
+   </div>
+   <% end %>
+</div>

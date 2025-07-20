@@ -10,13 +10,8 @@
 <%= link_to "@#{@post.user.username}", user_path(@post.user)%>
 
 <h1>Comments</h1>
-<%= render "comments/new"%>
+<%= render partial: "comments/new", locals: {post: @post}%>
 
 <% if @comments.present? %>
-    <% @comments.each do |c| %>
-        <div>
-            <%= "@#{c.user.username}:" %>
-            <%= c.body %>
-        </div>
-    <% end %>
+    <%= render partial: "comments/comment", collection: @post.comments.where(parent_id: nil), as: :comment%>
 <% end %>
