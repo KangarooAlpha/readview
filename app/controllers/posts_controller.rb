@@ -16,7 +16,6 @@ class PostsController < ApplicationController
     if @post.save
       redirect_to @post
     else
-      @e = error
       render :new, status: :unprocessable_entity
     end
   end

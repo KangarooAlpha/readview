@@ -1,4 +1,6 @@
 class PostLikingsController < ApplicationController
+  before_action :authenticate_user!
+
   def react
     post = Post.find(params[:post_id])
     type = params[:reaction]
@@ -20,5 +22,5 @@ class PostLikingsController < ApplicationController
     "neutral" => 0,
     "like" => 1,
     "dislike" => -1
-}.freeze
+  }.freeze
 end
