@@ -4,6 +4,9 @@ Rails.application.routes.draw do
     post "react", to: "post_likings#react", as: :react
     resources :comments
   end
+  resources :comments, only: [] do
+      post "react", to: "comment_likings#react", as: :react
+  end
   resources :users
   resources :followings, only: [ :create, :destroy ]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html

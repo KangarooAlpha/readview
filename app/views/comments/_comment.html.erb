@@ -1,5 +1,10 @@
 <div class="comment">
    <p><%= "@#{comment.user.username}"%> : <%= comment.body %></p>
+    <%= button_to "Like", comment_react_path(comment, reaction: "like"), method: :post%>
+    <%= comment.likes%>
+    <%= button_to "Dislike", comment_react_path(comment, reaction: "dislike")%>
+   <%= comment.dislikes%>
+
 
    <%= render partial: "comments/new", locals: {post: comment.post, parent_id: comment.id} %>
 
