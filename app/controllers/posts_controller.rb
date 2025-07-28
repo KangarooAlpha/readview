@@ -13,10 +13,14 @@ class PostsController < ApplicationController
 
   def create
     @post = current_user.posts.build(post_params)
-    if @post.save
-      redirect_to @post
-    else
-      render :new, status: :unprocessable_entity
+    respond_to do |format|
+      if @post.save
+        format.html { redirect_to @post }
+        format.turbo_stream { render :create, locals: { post: @post } }
+      else
+        format.html { render :new, status: :unprocessable_entity }
+        # format.turbo_stream { render :new, status: :unprocessable_entity }
+      end
     end
   end
 

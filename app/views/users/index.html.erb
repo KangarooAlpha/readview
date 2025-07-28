@@ -3,15 +3,20 @@
         <%= button_to "Sign up", new_user_registration_path, method: :get %>
         <%= button_to "Log in", new_user_session_path, method: :get %>
     <% else %>
-        <%= button_to "Create Post", new_post_path, method: :get %>
         <%= button_to "Sign Out", destroy_user_session_path, method: :delete, data: { turbo: false } %>
+        <%= turbo_frame_tag "new_post" do%>
+            <%= button_to "Create Post", new_post_path, method: :get %>
+        <% end %>
+
     <% end %>
     <h1>Posts</h1>
+    <div id="posts">
     <% @posts.each do |p| %>
         <div>
             <%= link_to p.title, post_path(p)%>
         </div>
     <% end %>
+    </div>
     <h1>Users</h1>
     <% @users.each do |u| %>
         <div>
