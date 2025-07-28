@@ -43,6 +43,21 @@ class PostsController < ApplicationController
     end
   end
 
+  def destroy
+    @post = current_user.posts.find(params[:id])
+    respond_to do |format|
+      if @post.user == current_user
+        if @post.destroy
+          format.html { redirect_to users_path }
+        else
+          format.html { redirect_to users_path, notice: "Couldn't delete the post" }
+        end
+      else
+        redirect_to users_path, notice: "You can't delete another user's post."
+      end
+    end
+  end
+
   private
   def post_params
     params.require(:post).permit(:title, :body)

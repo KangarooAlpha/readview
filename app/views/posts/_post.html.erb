@@ -3,7 +3,8 @@
         <div>
             <%= link_to p.title, post_path(p)%>
             <% if p.user == current_user %>
-                <%= link_to "Edit", edit_post_path(p), locals: {post: p}%>
+                <%= link_to "Edit", edit_post_path(p)%>
+                <%= button_to "Delete", post_path(p), method: :delete %>
             <% end %>
         </div>
         <%# end %>
