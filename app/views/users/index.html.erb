@@ -11,11 +11,7 @@
     <% end %>
     <h1>Posts</h1>
     <div id="posts">
-    <% @posts.each do |p| %>
-        <div>
-            <%= link_to p.title, post_path(p)%>
-        </div>
-    <% end %>
+        <%= render partial: "posts/post", locals: { posts: @posts }%>
     </div>
     <h1>Users</h1>
     <% @users.each do |u| %>

@@ -24,6 +24,17 @@ class PostsController < ApplicationController
     end
   end
 
+  def update
+    @post = Post.find(params[:id])
+    respond_to do |format|
+      if @post.user == current_user
+        if @post.save
+          format.html { redirect_to posts_path }
+        end
+      end
+    end
+  end
+
   private
   def post_params
     params.require(:post).permit(:title, :body)
