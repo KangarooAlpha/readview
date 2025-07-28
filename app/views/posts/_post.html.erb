@@ -2,9 +2,9 @@
         <%#= turbo_frame_tag "post_#{p.id}" do %>
         <div>
             <%= link_to p.title, post_path(p)%>
+            <% if p.user == current_user %>
+                <%= link_to "Edit", edit_post_path(p), locals: {post: p}%>
+            <% end %>
         </div>
-        <% if p.user == current_user %>
-            <%= button_to "Edit"%>
-        <% end %>
         <%# end %>
 <% end %>

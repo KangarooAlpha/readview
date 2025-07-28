@@ -23,14 +23,22 @@ class PostsController < ApplicationController
       end
     end
   end
+  def edit
+    @post = current_user.posts.find(params[:id])
+  end
 
   def update
-    @post = Post.find(params[:id])
+    @post = current_user.posts.find(params[:id])
     respond_to do |format|
       if @post.user == current_user
-        if @post.save
-          format.html { redirect_to posts_path }
+        if @post.update(post_params)
+          format.html { redirect_to @post, locals: { post: @post } }
+          # format.turbo_stream { render :update, locals: { post: @post }  }
+        else
+          format.html { render :edit, status: :unprocessable_entity }
         end
+      else
+        redirect_to users_path, notice: "You can't edit another user's post."
       end
     end
   end
