@@ -11,8 +11,10 @@
     <% end %>
     <h1>Posts</h1>
     <div id="posts">
-        <% @posts.each do |post| %>
-            <%= render partial: "posts/post", locals: { post: post }%>
+        <%= turbo_frame_tag "posts_show" do %>
+            <% @posts.each do |post| %>
+                <%= render partial: "posts/post", locals: { post: post }%>
+            <% end %>
         <% end %>
     </div>
     <h1>Users</h1>

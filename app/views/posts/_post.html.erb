@@ -1,9 +1,9 @@
-<%= turbo_frame_tag post do %>
+<%= turbo_frame_tag dom_id(post) do %>
 <div>
     <%= link_to post.title, post_path(post), data: {turbo: false}%>
     <% if post.user == current_user %>
         <%= link_to "Edit", edit_post_path(post)%>
-        <%= button_to "Delete", post_path(post), method: :delete %>
+        <%= button_to "Delete", post_path(post), method: :delete, form: { data: { turbo_confirm: "Are you sure?" } } %>
     <% end %>
 </div>
 <% end %>

@@ -49,6 +49,7 @@ class PostsController < ApplicationController
       if @post.user == current_user
         if @post.destroy
           format.html { redirect_to users_path }
+          format.turbo_stream
         else
           format.html { redirect_to users_path, notice: "Couldn't delete the post" }
         end

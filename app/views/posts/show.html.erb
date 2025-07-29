@@ -1,5 +1,11 @@
-<%= @post.title %>
-<%= @post.body %>
+<%= turbo_frame_tag @post do %>
+    <%= @post.title %>
+    <%= @post.body %>
+    <% if @post.user == current_user %>
+        <%= link_to "Edit", edit_post_path(@post)%>
+        <%= button_to "Delete", post_path(@post), method: :delete %>
+    <% end %>
+<% end %>
 
 <%= button_to "Like", post_react_path(@post, reaction: "like")%>
 <%= @post.likes%>

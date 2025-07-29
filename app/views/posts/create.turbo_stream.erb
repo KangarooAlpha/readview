@@ -1,1 +1,3 @@
-<%= turbo_stream.prepend "posts/show" %>
+<%= turbo_stream.prepend "posts_show" do %>
+    <%= render partial: "post", locals: {post: @post}%>
+<% end %>
