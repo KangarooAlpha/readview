@@ -1,11 +1,9 @@
-<% posts.each do |p| %>
-        <%#= turbo_frame_tag "post_#{p.id}" do %>
-        <div>
-            <%= link_to p.title, post_path(p)%>
-            <% if p.user == current_user %>
-                <%= link_to "Edit", edit_post_path(p)%>
-                <%= button_to "Delete", post_path(p), method: :delete %>
-            <% end %>
-        </div>
-        <%# end %>
+<%= turbo_frame_tag post do %>
+<div>
+    <%= link_to post.title, post_path(post), data: {turbo: false}%>
+    <% if post.user == current_user %>
+        <%= link_to "Edit", edit_post_path(post)%>
+        <%= button_to "Delete", post_path(post), method: :delete %>
+    <% end %>
+</div>
 <% end %>

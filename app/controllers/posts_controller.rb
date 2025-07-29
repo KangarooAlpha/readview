@@ -33,7 +33,7 @@ class PostsController < ApplicationController
       if @post.user == current_user
         if @post.update(post_params)
           format.html { redirect_to @post, locals: { post: @post } }
-          # format.turbo_stream { render :update, locals: { post: @post }  }
+          format.turbo_stream
         else
           format.html { render :edit, status: :unprocessable_entity }
         end

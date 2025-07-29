@@ -11,7 +11,9 @@
     <% end %>
     <h1>Posts</h1>
     <div id="posts">
-        <%= render partial: "posts/post", locals: { posts: @posts }%>
+        <% @posts.each do |post| %>
+            <%= render partial: "posts/post", locals: { post: post }%>
+        <% end %>
     </div>
     <h1>Users</h1>
     <% @users.each do |u| %>
