@@ -1,10 +1,9 @@
-<%= turbo_frame_tag "new_post" do %>
-    <%= form_with(model: [@post, Comment.new], local: true) do |f| %>
-        <% parent_id ||= nil%>
-        <%= f.hidden_field :parent_id, value: parent_id %>
-        <% f.label :body %>
-        <%= f.text_area :body, placeholder: "Write a comment" %>
+<%= form_with(model: [post, Comment.new], local: true) do |f| %>
+    <% parent_id ||= nil%>
+    <%= f.hidden_field :parent_id, value: parent_id %>
+    <% f.label :body %>
+    <%= f.text_area :body, placeholder: "Write a comment" %>
 
-        <%= f.submit parent_id.present? ? "Reply" : "Comment" %>
-    <% end %>
+    <%= f.submit parent_id.present? ? "Reply" : "Comment" %>
 <% end %>
+

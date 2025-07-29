@@ -1,1 +1,5 @@
-<%= turbo_stream.remove dom_id(@post) %>
+<%= turbo_stream.remove dom_id(@post) do %>
+    <% if context == "post" %>
+        <%= redirect_to root_path%>
+    <% end %>
+<% end %>
