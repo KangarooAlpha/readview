@@ -8,6 +8,10 @@
         <% following = current_user.active_rel.find_by(followed_id: @user.id) %>
         <%= button_to "Unfollow #{@user.username}", following_path(following), method: :delete %>
     <% end %>
+<% else %>
+<%= turbo_frame_tag "new_post" do%>
+    <%= link_to "Create Post", new_post_path(context: "user")%>
+<% end %>
 <% end %>
 
 <h1>Posts</h1>

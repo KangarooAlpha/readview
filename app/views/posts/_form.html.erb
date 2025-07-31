@@ -13,7 +13,10 @@
     <% if context == "post" %>
         <%= f.submit%>
         <%= link_to "Cancel", post_path(post)%>
-    <% else%>
+    <% elsif context == "useer"%>
+        <%= f.submit%>
+        <%= link_to "Cancel", user_path(user)%>
+    <% else %>
         <%= f.submit%>
         <%= link_to "Cancel", users_path%>
     <% end %>

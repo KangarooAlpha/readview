@@ -5,7 +5,7 @@
     <% else %>
         <%= button_to "Sign Out", destroy_user_session_path, method: :delete, data: { turbo: false } %>
         <%= turbo_frame_tag "new_post" do%>
-            <%= button_to "Create Post", new_post_path, method: :get %>
+            <%= link_to "Create Post", new_post_path(context: "index")%>
         <% end %>
 
     <% end %>
