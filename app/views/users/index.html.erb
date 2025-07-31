@@ -7,6 +7,7 @@
         <%= turbo_frame_tag "new_post" do%>
             <%= link_to "Create Post", new_post_path(context: "index")%>
         <% end %>
+        <%= button_to "Edit User", edit_user_registration_path, method: :get %>
 
     <% end %>
     <h1>Posts</h1>
