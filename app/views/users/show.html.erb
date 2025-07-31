@@ -12,5 +12,17 @@
 
 <h1>Posts</h1>
     <div id="posts">
-        <%= render partial: "posts/post", locals: { posts: @user.posts }%>
+        <%= turbo_frame_tag "posts_show" do %>
+            <% @user.posts.each do |post| %>
+                <%= render partial: "posts/post", locals: { post: post, context: "index"}%>
+            <% end %>
+        <% end %>
     </div>
+<% if @user.followed_users.any?%>
+    <h1>Followed Users</h1>
+    <% @user.followed_users.each do |u| %>
+        <div>
+            <%= link_to "@#{u.username}", user_path(u) %>
+        </div>
+    <% end %>
+<% end %>

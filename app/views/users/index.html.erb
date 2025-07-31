@@ -20,7 +20,7 @@
     <h1>Users</h1>
     <% @users.each do |u| %>
         <div>
-            <%= link_to "@#{u.username}", user_path(u)%>
+            <%= link_to "@#{u.username}", user_path(u) %>
         </div>
     <% end %>
 </body>

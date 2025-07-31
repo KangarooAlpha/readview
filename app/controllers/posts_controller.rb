@@ -9,10 +9,12 @@ class PostsController < ApplicationController
 
   def new
     @post = Post.new()
+    @context = params[:context] || "index"
   end
 
   def create
     @post = current_user.posts.build(post_params)
+    @context = params[:context] || "index"
     respond_to do |format|
       if @post.save
         format.html { redirect_to @post }

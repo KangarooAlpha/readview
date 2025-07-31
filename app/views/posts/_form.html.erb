@@ -1,7 +1,6 @@
 
 <p>Context: <%= context%></p>
-<%#= form_with model: post do |f| %>
-<%= form_with model: post, url: post_path(post), method: :patch, data: { turbo_frame: dom_id(post) } do |f| %>
+<%= form_with model: post, data: { turbo_frame: dom_id(post) } do |f| %>
       <%= hidden_field_tag :context, @context %>
     <div>
         <%= f.label :title %>
