@@ -1,4 +1,3 @@
 <%= turbo_frame_tag "post_comment" do %>
-<p>Post class: <%= @post.class %></p>
     <%= render partial: "comments/new", locals: {post: @post} %>
 <% end %>

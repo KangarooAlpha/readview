@@ -13,7 +13,7 @@
     <div id="posts">
         <%= turbo_frame_tag "posts_show" do %>
             <% @posts.each do |post| %>
-                <%= render partial: "posts/post", locals: { post: post }%>
+                <%= render partial: "posts/post", locals: { post: post, context: "index"}%>
             <% end %>
         <% end %>
     </div>

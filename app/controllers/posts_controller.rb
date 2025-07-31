@@ -25,10 +25,12 @@ class PostsController < ApplicationController
   end
   def edit
     @post = current_user.posts.find(params[:id])
+    @context = params[:context] || "index"
   end
 
   def update
     @post = current_user.posts.find(params[:id])
+    @context = params[:context]
     respond_to do |format|
       if @post.user == current_user
         if @post.update(post_params)
@@ -52,6 +54,7 @@ class PostsController < ApplicationController
           format.turbo_stream
         else
           format.html { redirect_to users_path, notice: "Couldn't delete the post" }
+          format.turbo_stream { redirect_to @post_path }
         end
       else
         redirect_to users_path, notice: "You can't delete another user's post."
