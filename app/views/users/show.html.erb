@@ -2,7 +2,9 @@
 <%= @user.email %>
 
 <% if @user.avatar.attached? %>
-    <%= image_tag(@user.avatar, style: "height: 50px;")%>
+  <%= image_tag url_for(@user.avatar), style: "height: 50px; width: 50px; object-fit: cover; border-radius: 50%" %>
+<% elsif @user.avatar_url.present? %>
+  <%= image_tag @user.avatar_url, style: "height: 50px; width: 50px; object-fit: cover; border-radius: 50%" %>
 <% end %>
 
 <% unless @user == current_user%>
