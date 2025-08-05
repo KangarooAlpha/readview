@@ -1,3 +1,7 @@
 <%= turbo_stream.replace "post_comment" do %>
   <%= render partial: "comments/comment", locals: { comment: @comment } %>
 <% end %>
+
+<%= turbo_stream.replace "comment_reply_#{params[:comment_id]}" do %>
+  <%= render partial: "comments/comment", locals: {post: @post, parent_id: comment.id}%>
+<% end %>

@@ -2,10 +2,13 @@ class CommentsController < ApplicationController
   before_action :authenticate_user!
 
   def new
+    Rails.logger.debug "📥 params: #{params.inspect}"
     Rails.logger.debug "params[:post_id] in new = #{params[:post_id].inspect}"
     @post = Post.find_by(id: params[:post_id])
     Rails.logger.debug "@post in new = #{@post.inspect}"
-    @comment = Comment.new
+    @comment = Comment.new(parent_id: params[:parent_id])
+    @parent_id = params[:parent_id]
+      Rails.logger.debug "@parent_id = #{@parent_id.inspect}"
   end
 
   def create
