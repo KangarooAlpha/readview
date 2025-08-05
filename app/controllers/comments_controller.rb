@@ -8,7 +8,7 @@ class CommentsController < ApplicationController
     Rails.logger.debug "@post in new = #{@post.inspect}"
     @comment = Comment.new(parent_id: params[:parent_id])
     @parent_id = params[:parent_id]
-      Rails.logger.debug "@parent_id = #{@parent_id.inspect}"
+    Rails.logger.debug "@parent_id = #{@parent_id.inspect}"
   end
 
   def create

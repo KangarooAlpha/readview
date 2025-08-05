@@ -18,6 +18,10 @@
     <%= link_to "Comment", new_post_comment_path(@post) %>
 <% end %>
 
-<% if @comments.present? %>
-    <%= render partial: "comments/comment", collection: @post.comments.where(parent_id: nil), as: :comment%>
+<%= turbo_frame_tag "post_comments" do %>
+    <% if @comments.present? %>
+        <%= render partial: "comments/comment", collection: @post.comments.where(parent_id: nil), as: :comment%>
+    <% else %>
+    <p>No comment yet, be the first!</p>
+    <% end %>
 <% end %>

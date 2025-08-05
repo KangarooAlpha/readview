@@ -1,0 +1,11 @@
+<% if @comment.parent_id.present? %>
+  <%= turbo_stream.append "comment_replies_#{@comment.parent_id}" do %>
+    <%= render partial: "comments/comment", locals: {comment: @comment}%>
+  <% end %>
+
+<% else %>
+  <%= turbo_stream.append "post_comments" do %>
+    <%= render partial: "comments/comment", locals: { comment: @comment } %>
+  <% end %>
+<% end %>
+

@@ -1,4 +1,4 @@
-<div class="comment">
+<div class="comment", style="margin-left: 20px;">
    <p><%= "@#{comment.user.username}"%> : <%= comment.body %></p>
     <%= button_to "Like", comment_react_path(comment, reaction: "like"), method: :post%>
     <%= comment.likes%>
@@ -11,9 +11,11 @@
        form: { data: { turbo_frame: "comment_reply_#{comment.id}" } } %>
    <% end %>
 
-   <% comment.replies.each do |c|%>
-   <div class="comment nested", style="margin-left: 20px;">
-        <%= render partial: "comments/comment", object: c %>
-   </div>
+   <%= turbo_frame_tag "comment_replies_#{comment.id}" do %>
+      <% comment.replies.each do |c|%>
+      <div class="comment nested">
+         <%= render partial: "comments/comment", object: c %>
+      </div>
+      <% end %>
    <% end %>
 </div>
