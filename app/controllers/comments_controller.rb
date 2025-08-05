@@ -26,4 +26,41 @@ class CommentsController < ApplicationController
       end
     end
   end
+
+  def edit
+    @comment = current_user.comments.find(params[:id])
+  end
+
+  def update
+    @comment = current_user.comments.find(params[:id])
+    respond_to do |format|
+      if @comment.user == current_user
+        if @comment.update
+          format.html { redirect_to @comment.post, locals: { post: @comment.post } }
+          format.turbo_stream
+        else
+          format.html { render :edit, status: :unprocessable_entity }
+        end
+      else
+        redirect_to users_path, notice: "You can't edit another user's comment."
+      end
+    end
+  end
+
+  def destroy
+    @comment = current_user.comments.find(params[:id])
+    respond_to do |format|
+      if @comment.user == current_user
+        if @comment.destroy
+          format.html { redirect_to post_path(@comment.post) }
+          format.turbo_stream
+        else
+          format.html { redirect_to users_path, notice: "Couldn't delete the comment" }
+          format.turbo_stream { redirect_to @comment.post }
+        end
+      else
+        redirect_to users_path, notice: "You can't delete another user's comment."
+      end
+    end
+  end
 end

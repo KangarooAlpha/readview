@@ -1,15 +1,20 @@
 <div class="comment", style="margin-left: 20px;">
-   <p><%= "@#{comment.user.username}"%> : <%= comment.body %></p>
-    <%= button_to "Like", comment_react_path(comment, reaction: "like"), method: :post%>
-    <%= comment.likes%>
-    <%= button_to "Dislike", comment_react_path(comment, reaction: "dislike")%>
-   <%= comment.dislikes%>
+   <%= turbo_frame_tag dom_id(comment) do %>
+      <p><%= "@#{comment.user.username}"%> : <%= comment.body %></p>
+      <%= button_to "Like", comment_react_path(comment, reaction: "like"), method: :post%>
+      <%= comment.likes%>
+      <%= button_to "Dislike", comment_react_path(comment, reaction: "dislike")%>
+      <%= comment.dislikes%>
+      <% if comment.user == current_user %>
+         <%= button_to "Delete", post_comment_path(comment.post, comment), method: :delete, form: { data: { turbo_confirm: "Are you sure?" } } %>
+      <% end %>
 
    <%= turbo_frame_tag "comment_reply_#{comment.id}" do %>
       <%= link_to "Reply", new_post_comment_path(post_id: comment.post.id, parent_id: comment.id),
        method: :get, 
        form: { data: { turbo_frame: "comment_reply_#{comment.id}" } } %>
    <% end %>
+   
 
    <%= turbo_frame_tag "comment_replies_#{comment.id}" do %>
       <% comment.replies.each do |c|%>
@@ -17,5 +22,6 @@
          <%= render partial: "comments/comment", object: c %>
       </div>
       <% end %>
+   <% end %>
    <% end %>
 </div>
