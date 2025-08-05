@@ -19,6 +19,19 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     end
   end
 
+  def github
+    user = User.from_omniauth(auth)
+puts request.env["omniauth.auth"].to_yaml
+
+    if user.present?
+      sign_out_all_scopes
+      flash[:success] = t "devise.omniauth_callbacks.success", kind: "Github"
+      sign_in_and_redirect user, event: :authentication
+    else
+      flash[:alert] = t "devise.omniauth_callbacks.failure", kind: "Github", reason: "#{auth.info.email} is not autherized."
+    end
+  end
+
   # More info at:
   # https://github.com/heartcombo/devise#omniauth
 

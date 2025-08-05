@@ -24,7 +24,11 @@
     url: omniauth_authorize_path(resource_name, provider),
     method: :post,
     data: {turbo: "false"} do |f|%>
-      <%= tag.input type: "image", src: asset_path("web_dark_rd_ctn@1x.png"), alt: "Login" %>
+    <% if provider == :google_oauth2 %>
+      <%= tag.input type: "image", src: asset_path("web_dark_rd_na.svg"), alt: "Google" %>
+    <% elsif provider == :github %>
+      <%= tag.input type: "image", src: asset_path("github-mark.svg"), alt: "Github" %>
+    <% end %>
     <% end %>
   <% end %>
 <% end %>
