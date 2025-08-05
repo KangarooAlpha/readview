@@ -1,9 +1,9 @@
 <% unless @comment.parent_id.present? %>
     <%= turbo_frame_tag "post_comment" do %>
-        <%= render partial: "comments/new", locals: {post: @post} %>
+        <%= render partial: "comments/form", locals: {post: @post, comment: @comment} %>
     <% end %>
 <% else %>
     <%= turbo_frame_tag "comment_reply_#{@comment.parent_id}" do %>
-    <%= render partial: "comments/new", locals: {post: @post, parent_id: @comment.parent_id, comment: @comment}%>
+    <%= render partial: "comments/form", locals: {post: @post, parent_id: @comment.parent_id, comment: @comment}%>
     <% end %>
 <% end %>

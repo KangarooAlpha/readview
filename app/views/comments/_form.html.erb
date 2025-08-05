@@ -1,4 +1,4 @@
-<%= form_with(model: [post, Comment.new], local: false) do |f| %>
+<%= form_with(model: [post, comment], local: false) do |f| %>
     <% parent_id ||= nil%>
     <%= f.hidden_field :parent_id, value: parent_id %>
     <% f.label :body %>

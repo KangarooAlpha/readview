@@ -7,6 +7,7 @@
       <%= comment.dislikes%>
       <% if comment.user == current_user %>
          <%= button_to "Delete", post_comment_path(comment.post, comment), method: :delete, form: { data: { turbo_confirm: "Are you sure?" } } %>
+         <%= link_to "Edit", edit_post_comment_path(comment.post, comment) %>
       <% end %>
 
    <%= turbo_frame_tag "comment_reply_#{comment.id}" do %>
