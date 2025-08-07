@@ -1,9 +1,12 @@
 class User < ApplicationRecord
+  after_create :send_welcome_email
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable,
          :omniauthable, omniauth_providers: [ :google_oauth2, :github ]
+
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
@@ -42,4 +45,8 @@ class User < ApplicationRecord
 
   has_many :follower_users, through: :passive_rel, source: :follower_user
   has_many :followed_users, through: :active_rel, source: :followed_user
+
+  def send_welcome_email
+      UserMailer.welcome_email(self).deliver_later
+  end
 end

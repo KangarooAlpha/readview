@@ -1,0 +1,8 @@
+<!-- app/views/user_mailer/welcome_email.html.erb -->
+<h1>Welcome to Odinbook, <%= @user.username || @user.email %>!</h1>
+<p>
+  We're glad to have you. Click below to get started:
+</p>
+<p>
+  <%= link_to 'Go to your dashboard', root_url %>
+</p>
