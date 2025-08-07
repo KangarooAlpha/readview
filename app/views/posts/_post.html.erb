@@ -2,7 +2,22 @@
     <div>
         <% if context == "post" %>
             <%= post.title %>
-            <%= post.body %>
+            <% @post.contents.each do |content| %>
+                <% case content.contentable %>
+                <% when TextContent %>
+                    <p><%= content.contentable.body %></p>
+
+                <% when ImageContent %>
+                    <% content.contentable.images.each do |i|%>
+                        <%= image_tag i %>
+                    <p>it exists</p>
+                    <% end %>
+
+                <% when VideoContent %>
+                    <%= video_tag content.contentable.video, controls: true %>
+
+                <% end %>
+            <% end %>
             <% if post.user == current_user %>
                 <%= link_to "Edit", edit_post_path(post: post, context: "post")%>
                 <%= button_to "Delete", post_path(post), method: :delete, data: { turbo_confirm: "Are you sure you want to delete this post?", turbo: false }%>

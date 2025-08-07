@@ -1,14 +1,22 @@
 
-<p>Context: <%= context%></p>
-<%= form_with model: post, data: { turbo_frame: dom_id(post) } do |f| %>
+<p>Context: <%= context %></p>
+<%= form_with model: post, data: { turbo_frame: dom_id(post) }, multipart: true do |f| %>
       <%= hidden_field_tag :context, @context %>
     <div>
         <%= f.label :title %>
         <%= f.text_field :title %>
     </div>
     <div>
-        <%= f.label :body %>
-        <%= f.text_area :body %>
+        <%= label_tag :body, "Text Content" %>
+        <%= text_area_tag :body %>
+    </div>
+    <div>
+        <%= label_tag :images, "Upload Image(s)" %>
+        <%= file_field_tag :images, multiple: true, accept: "image/*", name: "images[]" %>
+    </div>
+    <div>
+        <%= label_tag :video, "Upload Video"%>
+        <%= file_field_tag :video, accept: "video/*" %>
     </div>
     <% if context == "post" %>
         <%= f.submit%>

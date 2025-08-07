@@ -1,7 +1,10 @@
 class Post < ApplicationRecord
-  belongs_to :user
   validates :title, presence: true
-  validates :body, presence: true
+
+  belongs_to :user
+
+  has_many :contents, as: :postable, dependent: :destroy
+  accepts_nested_attributes_for :contents, allow_destroy: true
 
   has_many :comments, dependent: :destroy
 

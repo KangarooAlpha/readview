@@ -15,6 +15,31 @@ class PostsController < ApplicationController
   def create
     @post = current_user.posts.build(post_params)
     @context = params[:context] || "index"
+    content = []
+
+    if params[:body].present?
+      text = TextContent.create(body: params[:body])
+      content << Content.new(contentable: text, postable: @post)
+    end
+
+    if params[:images].present?
+      params[:images].each do |i|
+        img = ImageContent.new
+        img.images.attach(i)
+        img.save!
+        content << Content.new(contentable: img, postable: @post)
+      end
+    end
+
+    if params[:video].present?
+      vid = VideoContent.new
+      vid.video.attach(params[:video])
+      vid.save!
+      content << Content.new(contentable: vid, postable: @post)
+    end
+
+    @post.contents = content
+
     respond_to do |format|
       if @post.save
         format.html { redirect_to @post }
@@ -33,6 +58,35 @@ class PostsController < ApplicationController
   def update
     @post = current_user.posts.find(params[:id])
     @context = params[:context]
+    content = []
+
+    if params[:body].present?
+      text = TextContent.create(body: params[:body])
+      content << Content.new(contentable: text, postable: @post)
+    end
+
+    if params[:images].present?
+      params[:images].each do |i|
+        img = ImageContent.new
+        img.images.attach(i)
+        img.save!
+        content << Content.new(contentable: img, postable: @post)
+      end
+    end
+
+    if params[:video].present?
+      vid = VideoContent.new
+      vid.video.attach(params[:video])
+      vid.save!
+      content << Content.new(contentable: vid, postable: @post)
+    end
+
+    if content.present?
+      @post.contents.destroy_all
+      @post.contents += content
+    end
+
+
     respond_to do |format|
       if @post.user == current_user
         if @post.update(post_params)
@@ -66,6 +120,6 @@ class PostsController < ApplicationController
 
   private
   def post_params
-    params.require(:post).permit(:title, :body)
+    params.require(:post).permit(:title)
   end
 end
