@@ -6,9 +6,11 @@
     <div class="container border-primary flex-row justify-center gap-6">
 
         <h1 class="text-4xl font-bold mb-6 text-center text-primary text-shadow">Posts</h1>
-        <div class=" flex container justify-end pe-10">
+        <div class=" flex container justify-center pb-10">
             <%= turbo_frame_tag "new_post" do %>
+            <div class="contaienr justify-center">
                 <%= link_to "Create Post", new_post_path(context: "index"), class: "btn btn-success btn-sm justify-end" %>
+            </div>
             <% end %>
         </div>
         <%= turbo_frame_tag "posts_show" do %>
