@@ -5,7 +5,7 @@
             <h2 class="text-4xl font-bold text-center text-secondary text-shadow"><%= post.title %></h2>
             <h2 class="text-l text-gray-500 text-end hover:underline">By: <%= link_to "@#{post.user.username}", user_path(post.user), data: {turbo: false}%></h2>
             </div>
-            <div class="container justify-center grid gap-6">
+            <div class="container text-start grid gap-6">
                 <div data-controller="carousel" class="swiper max-w-xl mx-auto 2xl:w-autp">
                     <div class="swiper-wrapper max-w-xl 2xl:w-auto">
                         <% @images.each do |img| %>
@@ -21,14 +21,16 @@
                     <div class="swiper-pagination"></div>
                 </div>
                 <% post.contents.each do |content| %>
-                <% case content.contentable %>
-                <% when VideoContent %>
-                    <div class="flex justify-center my-4">
-                    <%= video_tag content.contentable.video, controls: true, class: "rounded shadow" %>
+                    <% case content.contentable %>
+                    <% when VideoContent %>
+                        <div class="flex justify-center my-4">
+                        <%= video_tag content.contentable.video, controls: true, class: "rounded shadow" %>
+                        </div>
+                    <% when TextContent %>
+                    <div class="max-w-2xl break-words text-start">
+                        <p class="my-4 text-gray-200 break-words text-start" ><%= content.contentable.body %></p>
                     </div>
-                <% when TextContent %>
-                    <p class="my-4 text-gray-200"><%= content.contentable.body %></p>
-                <% end %>
+                    <% end %>
                 <% end %>
             </div>
             <% if post.user == current_user %>
@@ -42,12 +44,18 @@
         <% else %>
         <div class="relative"> 
             <div class="card bg-base-100 card-border border-gray-700 shadow-lg z-10 relative">
-                <div class="card-body">
+                <div class="card-body max-w-xl">
                 <%= link_to post.title, post_path(post), data: { turbo: false }, class: "text-primary no-underline hover:cursor-pointer" %>
-                <% post.contents.each do |content| %>
-                <% if content.contentable.is_a?(TextContent)%>
-                    <p class="text-start"><%= content.contentable.body %></p>
+                <% preview = post_preview_image(post) %>
+                <% if preview.present? %>
+                    <div class="w-full max-w-xl mx-auto mb-3">
+                        <%= image_tag url_for(preview), class: "rounded shadow w-full object-cover h-40" %>
+                    </div>
                 <% end %>
+                <% post.contents.each do |content| %>
+                    <% if content.contentable.is_a?(TextContent)%>
+                        <p class="text-start line-clamp-3 break-words"><%= content.contentable.body %></p>
+                    <% end %>
                 <% end %>
                 <% if post.user == current_user %>
                     <div class=" card-actions flex gap-2 mt-4">

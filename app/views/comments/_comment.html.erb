@@ -2,7 +2,7 @@
   <%= turbo_frame_tag dom_id(comment) do %>
     <div class="bg-gray-800 p-4 rounded-lg shadow text-gray-200 break-words">
       <div class="flex bg-gray-800 p-4 rounded-lg shadow text-gray-200 break-words">
-         <div class="flex items-center gap-2 whitespace-normal">
+         <div class="flex items-center gap-2">
             <%= image_tag comment.user.avatar_url, alt: "#{comment.user.username}'s avatar", class: "w-6 h-6 rounded-full" %>
             <span class="font-semibold text-blue-400">
                @<%= link_to comment.user.username, user_path(comment.user), data: { turbo: false } %>
