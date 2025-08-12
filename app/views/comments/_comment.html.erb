@@ -1,28 +1,54 @@
-<div class="comment", style="margin-left: 20px;">
-   <%= turbo_frame_tag dom_id(comment) do %>
-      <p><%= "@#{comment.user.username}"%> : <%= comment.body %></p>
-      <%= button_to "Like", comment_react_path(comment, reaction: "like"), method: :post%>
-      <%= comment.likes%>
-      <%= button_to "Dislike", comment_react_path(comment, reaction: "dislike")%>
-      <%= comment.dislikes%>
-      <% if comment.user == current_user %>
-         <%= button_to "Delete", post_comment_path(comment.post, comment), method: :delete, form: { data: { turbo_confirm: "Are you sure?" } } %>
-         <%= link_to "Edit", edit_post_comment_path(comment.post, comment) %>
-      <% end %>
+<div class="py-2">
+  <%= turbo_frame_tag dom_id(comment) do %>
+    <div class="bg-gray-800 p-4 rounded-lg shadow text-gray-200 break-words">
+      <div class="flex bg-gray-800 p-4 rounded-lg shadow text-gray-200 break-words">
+         <div class="flex items-center gap-2 whitespace-normal">
+            <%= image_tag comment.user.avatar_url, alt: "#{comment.user.username}'s avatar", class: "w-6 h-6 rounded-full" %>
+            <span class="font-semibold text-blue-400">
+               @<%= link_to comment.user.username, user_path(comment.user), data: { turbo: false } %>
+            </span>
+         </div>
+         <div class="divider divider-horizontal"></div>
+         <div class="break-words max-w-2xl"><p class="break-words"><%= comment.body %></p></div>
 
-   <%= turbo_frame_tag "comment_reply_#{comment.id}" do %>
-      <%= link_to "Reply", new_post_comment_path(post_id: comment.post.id, parent_id: comment.id),
-       method: :get, 
-       form: { data: { turbo_frame: "comment_reply_#{comment.id}" } } %>
-   <% end %>
-   
-
-   <%= turbo_frame_tag "comment_replies_#{comment.id}" do %>
-      <% comment.replies.each do |c|%>
-      <div class="comment nested">
-         <%= render partial: "comments/comment", object: c %>
       </div>
+      <div class="flex items-center gap-2 text-sm">
+         <%= button_to comment_react_path(comment, reaction: "like"), class:"btn btn-xs btn-primary" do %>
+            <%= image_tag "arrow_upward.svg", class: "w-4 h-4" %>
+         <% end %>
+         <span><%= comment.likes %></span>
+
+         <%= button_to comment_react_path(comment, reaction: "dislike"), class:"btn btn-xs btn-secondary" do %>
+            <%= image_tag "arrow_downward.svg", class: "w-4 h-4" %>
+         <% end %>
+         <span><%= comment.dislikes %></span>
+      </div>
+
+      <div class="mt-4 flex gap-2 text-cente items-center">
+         <%= turbo_frame_tag "comment_reply_#{comment.id}", class:"inline-flex" do %>
+          <%= link_to "Reply", new_post_comment_path(post_id: comment.post.id, parent_id: comment.id),
+               method: :get,
+               form: { data: { turbo_frame: "comment_reply_#{comment.id}" } },
+               class: " btn btn-tertiary btn-xs hover:underline" %>
+         <% end %>
+         <% if comment.user == current_user %>
+         
+         <%= link_to "Edit", edit_post_comment_path(comment.post, comment),
+               class: "btn btn-xs btn-primary z-20" %>
+        
+          <%= button_to "Delete", post_comment_path(comment.post, comment), method: :delete,
+               form: { data: { turbo_confirm: "Are you sure?" } },
+               class: "btn btn-xs btn-error" %>
+         <% end %>
+      </div>
+    </div>
+
+    <%= turbo_frame_tag "comment_replies_#{comment.id}" do %>
+      <% comment.replies.each do |c| %>
+         <div class="ml-5">
+            <%= render partial: "comments/comment", object: c %>
+         </div>
       <% end %>
-   <% end %>
-   <% end %>
+    <% end %>
+  <% end %>
 </div>

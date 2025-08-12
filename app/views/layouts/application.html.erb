@@ -26,17 +26,20 @@
 
   <body class="p-0">
     <header class="sticky top-0 gap-6 justify-end mb-8 z-50 b-0">
-
-      <div class="navbar sticky top-0 grid jusify-end gap-6 bg-primary b-0">
+      <div class="navbar sticky top-0 flex items-center justify-end gap-6 bg-primary">
         <% unless user_signed_in? %>
           <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-outline btn-sm" %>
           <%= link_to "Log In", new_user_session_path, class: "btn btn-outline btn-sm" %>
         <% else %>
-          <div class=" flex justify-end gap-2">
-          <%= button_to "Sign Out", destroy_user_session_path, method: :delete, data: { turbo: false }, class: "btn btn-error btn-sm justify-end" %>
-          <%= link_to "Edit User", edit_user_registration_path, class: "btn btn-warning btn-sm justify-end" %>
+          <div class="flex items-center gap-4">
+            <%= button_to "Sign Out", destroy_user_session_path, method: :delete, data: { turbo: false }, class: "btn btn-error btn-sm" %>
+            <%= link_to "Edit User", edit_user_registration_path, class: "btn btn-warning btn-sm" %>
+            <%= link_to user_path(current_user), class: "avatar" do %>
+              <div class="w-10 rounded-full overflow-hidden">
+                <img src="<%= current_user.avatar_url %>" alt="avatar" class="w-full h-full object-cover" />
+              </div>
+            <% end %>
           </div>
-      </div>
         <% end %>
       </div>
     </header>

@@ -41,12 +41,12 @@
         </div>
         <% else %>
         <div class="relative"> 
-            <div class="card bg-base-100 shadow-md z-10 relative">
+            <div class="card bg-base-100 card-border border-gray-700 shadow-lg z-10 relative">
                 <div class="card-body">
                 <%= link_to post.title, post_path(post), data: { turbo: false }, class: "text-primary no-underline hover:cursor-pointer" %>
                 <% post.contents.each do |content| %>
                 <% if content.contentable.is_a?(TextContent)%>
-                    <p><%= content.contentable.body %></p>
+                    <p class="text-start"><%= content.contentable.body %></p>
                 <% end %>
                 <% end %>
                 <% if post.user == current_user %>

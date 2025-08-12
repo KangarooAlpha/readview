@@ -2,7 +2,7 @@
 
 <div class="container flex justify-center" >
     <div class="py-5 px-3 justify-center text-center">
-        <%= link_to "Back", "javascript:history.back()", class: "btn btn-sm mb-10" %>
+        <%= link_to "Back", "javascript:history.back()", class: "btn btn-sm mb-5" %>
         <%= button_to post_react_path(@post, reaction: "like"), class: "btn btn-sm btn-primary" do %>
             <%= image_tag "arrow_upward.svg"%>
         <% end %>
@@ -12,22 +12,26 @@
         <% end %>
         <%= @post.dislikes%>
     </div>
-    <div class="container b-10 rounded-lg bg-gray-700 m-3 p-3 justify-center">
+    <div class="container rounded-lg bg-gray-700 m-3 p-3 justify-center">
         <%= turbo_frame_tag @post do %>
             <%= render partial: "posts/post", locals: { post: @post, context: "post"}%>
         <% end %>
     </div>
 
 </div>
-<h1>Comments</h1>
-<%= turbo_frame_tag "post_comment" do%>
-    <%= link_to "Comment", new_post_comment_path(@post) %>
-<% end %>
 
-<%= turbo_frame_tag "post_comments" do %>
-    <% if @comments.present? %>
-        <%= render partial: "comments/comment", collection: @post.comments.where(parent_id: nil), as: :comment%>
-    <% else %>
-    <p>No comment yet, be the first!</p>
+<div class="container p-6">
+    <h1 class="text-xl font-bold mb-3 text-start text-primary text-shadow gap-2">Comments</h1>
+    <%= turbo_frame_tag "post_comment" do%>
+        <%= link_to "Comment", new_post_comment_path(@post), class:"btn btn-md btn-primary mb-3"%>
     <% end %>
-<% end %>
+    <div class="container bg-gray-700 p-6 rounded-lg" >
+    <%= turbo_frame_tag "post_comments" do %>
+        <% if @comments.present? %>
+            <%= render partial: "comments/comment", collection: @post.comments.where(parent_id: nil), as: :comment%>
+        <% else %>
+        <p>No comment yet, be the first!</p>
+        <% end %>
+    <% end %>
+    </div>
+</div>
