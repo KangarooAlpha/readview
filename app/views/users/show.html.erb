@@ -1,38 +1,65 @@
-<%= @user.username %>
-<%= @user.email %>
+<div class="flex justify-center">
+    <div class="container grid max-w-2xl justify-center">
+        <div class="hero bg-gray-700 max-w-2xl rounded-xl mb-6 w-xl">
+            <div class="hero-content flex-col lg:flex-row"> 
+                <% if @user.avatar.attached? %>
+                    <%= image_tag url_for(@user.avatar), style: "height: 50px; width: 50px; object-fit: cover; border-radius: 50%" %>
+                <% elsif @user.avatar_url.present? %>
+                    <%= image_tag @user.avatar_url, style: "height: 50px; width: 50px; object-fit: cover; border-radius: 50%" %>
+                <% end %>
+                <div>
+                    <h1 class="text-5-xl font-bold"><%= @user.username %></h1>
+                    <p>
+                        <% unless @user == current_user%>
+                            <% unless current_user.followed_users.include?(@user) %>
+                                <%= button_to "Follow #{@user.username}", followings_path(followed_id: @user.id), method: :post, class: "btn btn-success btn-sm justify-end" %>
+                            <% else %>
+                                <% following = current_user.active_rel.find_by(followed_id: @user.id) %>
+                                <%= button_to "Unfollow #{@user.username}", following_path(following), method: :delete, class: "btn btn-error btn-sm justify-end" %>
+                            <% end %>
+                        <% else %>
+                            <%= turbo_frame_tag "new_post" do%>
+                                <%= link_to "Create Post", new_post_path(context: "user"), class: "btn btn-success btn-sm justify-end" %>
+                            <% end %>
+                        <% end %>
 
-<% if @user.avatar.attached? %>
-  <%= image_tag url_for(@user.avatar), style: "height: 50px; width: 50px; object-fit: cover; border-radius: 50%" %>
-<% elsif @user.avatar_url.present? %>
-  <%= image_tag @user.avatar_url, style: "height: 50px; width: 50px; object-fit: cover; border-radius: 50%" %>
-<% end %>
+                    </p>
+                </div>
+            </div>
 
-<% unless @user == current_user%>
-    <% unless current_user.followed_users.include?(@user) %>
-        <%= button_to "Follow #{@user.username}", followings_path(followed_id: @user.id), method: :post %>
-    <% else %>
-        <% following = current_user.active_rel.find_by(followed_id: @user.id) %>
-        <%= button_to "Unfollow #{@user.username}", following_path(following), method: :delete %>
-    <% end %>
-<% else %>
-<%= turbo_frame_tag "new_post" do%>
-    <%= link_to "Create Post", new_post_path(context: "user")%>
-<% end %>
-<% end %>
-
-<h1>Posts</h1>
-    <div id="posts">
-        <%= turbo_frame_tag "posts_show" do %>
-            <% @user.posts.each do |post| %>
-                <%= render partial: "posts/post", locals: { post: post, context: "index"}%>
-            <% end %>
-        <% end %>
-    </div>
-<% if @user.followed_users.any?%>
-    <h1>Followed Users</h1>
-    <% @user.followed_users.each do |u| %>
-        <div>
-            <%= link_to "@#{u.username}", user_path(u) %>
         </div>
+        <div>
+        <h1 class="text-4xl font-bold mb-6 text-center text-primary text-shadow">Posts</h1>
+            <div id="posts">
+                <%= turbo_frame_tag "posts_show" do %>
+                    <% if @user.posts.present? %>
+                        <div class="grid items-center justify-center gap-6">
+                            <% @user.posts.each do |post| %>
+                            <div class="w-xl text-center justify-center">
+                                <%= render partial: "posts/post", locals: { post: post, context: "index"}%>
+                            </div>
+                            <% end %>
+                        </div>
+                    <% else %>
+                        <div class="container bg-gray-700 text-center rounded-xl p-6">
+                            <p>This user doesn't have any posts yet.</p>
+                        </div>
+                    <% end %>
+                <% end %>
+            </div>
+        </div>
+    </div>
+    <% if @user.followed_users.any?%>
+    <section class="mt-12">
+        <h2 class="text-3xl font-semibold mb-4">Followed Users</h2>
+        <div class="space-y-2">
+        <% @user.followed_users.each do |u| %>
+            <div>
+                <%= link_to "@#{u.username}", user_path(u), class: "link link-hover text-lg text-secondary" %>
+            </div>
+        <% end %>
+        </div >
     <% end %>
-<% end %>
+    </section>
+
+</div>
