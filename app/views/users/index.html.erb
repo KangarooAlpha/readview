@@ -1,27 +1,38 @@
-<body>
-    <% unless user_signed_in?%>
-        <%= button_to "Sign up", new_user_registration_path, method: :get %>
-        <%= button_to "Log in", new_user_session_path, method: :get %>
-    <% else %>
-        <%= button_to "Sign Out", destroy_user_session_path, method: :delete, data: { turbo: false } %>
-        <%= turbo_frame_tag "new_post" do%>
-            <%= link_to "Create Post", new_post_path(context: "index")%>
-        <% end %>
-        <%= button_to "Edit User", edit_user_registration_path, method: :get %>
 
-    <% end %>
-    <h1>Posts</h1>
-    <div id="posts">
-        <%= turbo_frame_tag "posts_show" do %>
-            <% @posts.each do |post| %>
-                <%= render partial: "posts/post", locals: { post: post, context: "index"}%>
+<body class="bg-base-200 min-h-screen font-sans">
+
+  <main class="max-w-5xl mx-auto flex gap-6">
+
+    <div class="container border-primary flex-row justify-center gap-6">
+
+        <h1 class="text-4xl font-bold mb-6 text-center text-primary text-shadow">Posts</h1>
+        <div class=" flex container justify-end pe-10">
+            <%= turbo_frame_tag "new_post" do %>
+                <%= link_to "Create Post", new_post_path(context: "index"), class: "btn btn-success btn-sm justify-end" %>
             <% end %>
+        </div>
+        <%= turbo_frame_tag "posts_show" do %>
+            <div class="grid items-center justify-center gap-6">
+                <% @posts.each do |post| %>
+                <div class="w-xl text-center justify-center">
+                    <%= render partial: "posts/post", locals: { post: post, context: "index" } %>
+                </div>
+            <% end %>
+            </div>
         <% end %>
     </div>
-    <h1>Users</h1>
-    <% @users.each do |u| %>
-        <div>
-            <%= link_to "@#{u.username}", user_path(u) %>
-        </div>
-    <% end %>
+
+    <section class="mt-12">
+      <h2 class="text-3xl font-semibold mb-4">Users</h2>
+      <div class="space-y-2">
+        <% @users.each do |u| %>
+          <div>
+            <%= link_to "@#{u.username}", user_path(u), class: "link link-hover text-lg text-secondary" %>
+          </div>
+        <% end %>
+      </div>
+    </section>
+
+  </main>
+
 </body>

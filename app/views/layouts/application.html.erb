@@ -22,9 +22,27 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
-    <p class="notice"><%= notice %></p>
-    <p class="alert"><%= alert %></p>
+  <body class="p-0">
+    <header class="sticky top-0 gap-6 justify-end mb-8 z-50 b-0">
+
+      <div class="navbar sticky top-0 grid jusify-end gap-6 bg-primary b-0">
+        <% unless user_signed_in? %>
+          <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-outline btn-sm" %>
+          <%= link_to "Log In", new_user_session_path, class: "btn btn-outline btn-sm" %>
+        <% else %>
+          <div class=" flex justify-end gap-2">
+          <%= button_to "Sign Out", destroy_user_session_path, method: :delete, data: { turbo: false }, class: "btn btn-error btn-sm justify-end" %>
+          <%= link_to "Edit User", edit_user_registration_path, class: "btn btn-warning btn-sm justify-end" %>
+          </div>
+      </div>
+        <% end %>
+      </div>
+    </header>
+    <% flash.each do |key, message| %>
+      <div class="alert alert-<%= key == 'notice' ? 'success' : 'error' %>">
+        <span><%= message %></span>
+      </div>
+    <% end %>
     <%= yield %>
   </body>
 </html>
