@@ -6,38 +6,30 @@
             <h2 class="text-l text-gray-500 text-end hover:underline">By: <%= link_to "@#{post.user.username}", user_path(post.user), data: {turbo: false}%></h2>
             </div>
             <div class="container justify-center grid p-6 gap-6">
-            <% post.contents.each do |content| %>
+                <div data-controller="carousel" class="swiper max-w-2xl mx-auto">
+                    <div class="swiper-wrapper">
+                        <% @images.each do |img| %>
+                            <div class="swiper-slide w-full max-w-2xl overflow-hidden">
+                            <%= image_tag url_for(img), class: "rounded-lg shadow-lg w-full h-auto max-h-[400px] object-contain" %>
+                            </div>
+
+                        <% end %>
+                    </div>
+
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-pagination"></div>
+                </div>
+                <% post.contents.each do |content| %>
                 <% case content.contentable %>
                 <% when VideoContent %>
-                    <div class=" flex justify-center">
-                    <%= video_tag content.contentable.video, controls: true %>
+                    <div class="flex justify-center my-4">
+                    <%= video_tag content.contentable.video, controls: true, class: "rounded shadow" %>
                     </div>
-                <% when ImageContent %>
-                    <% images = content.contentable.images %>
-
-                    <% if images.size == 1 %>
-                        <div class="flex justify-center">
-                        <%= image_tag images.first, class: "rounded-lg shadow-lg", loading: "lazy" %>
-                        </div>
-                    <% elsif images.size > 1 %>
-                        <div class="carousel w-full max-w-2xl mx-auto">
-                        <% images.each_with_index do |img, index| %>
-                            <div id="slide-<%= index %>" class="carousel-item relative w-full">
-                            <%= image_tag img, class: "w-full rounded-lg", loading: "lazy" %>
-                            <div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-                                <% prev_index = (index - 1) % images.size %>
-                                <% next_index = (index + 1) % images.size %>
-                                <a href="#slide-<%= prev_index %>" class="btn btn-circle">❮</a>
-                                <a href="#slide-<%= next_index %>" class="btn btn-circle">❯</a>
-                            </div>
-                            </div>
-                        <% end %>
-                        </div>
-                    <% end %>
                 <% when TextContent %>
-                    <p><%= content.contentable.body %></p>
+                    <p class="my-4 text-gray-200"><%= content.contentable.body %></p>
                 <% end %>
-            <% end %>
+                <% end %>
             </div>
             <% if post.user == current_user %>
             <div class=" flex justify-end gap-2">

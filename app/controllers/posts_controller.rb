@@ -5,6 +5,10 @@ class PostsController < ApplicationController
     @post = Post.find(params[:id])
     @comment = Comment.new
     @comments = @post.comments.all
+    @contents = @post.contents.includes(contentable: { images_attachments: :blob })
+    @images = @contents
+      .select { |content| content.contentable.is_a?(ImageContent) }
+      .flat_map { |content| content.contentable.images }
   end
 
   def new

@@ -81,3 +81,5 @@ gem "tailwindcss-rails"
 gem "tailwindcss-ruby", "~> 4.1"
 
 gem "swiper-rails"
+
+gem "image_processing", "~> 1.2"
