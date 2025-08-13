@@ -24,7 +24,7 @@
          <span><%= comment.dislikes %></span>
       </div>
 
-      <div class="mt-4 flex gap-2 text-cente items-center">
+      <div class="mt-4 flex gap-2 text-center items-center juestify-start">
          <%= turbo_frame_tag "comment_reply_#{comment.id}", class:"inline-flex" do %>
           <%= link_to "Reply", new_post_comment_path(post_id: comment.post.id, parent_id: comment.id),
                method: :get,

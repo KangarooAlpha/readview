@@ -1,10 +1,15 @@
-<%= form_with(model: [post, comment], local: false) do |f| %>
-    <% parent_id ||= nil%>
-    <%= f.hidden_field :parent_id, value: parent_id %>
-    <% f.label :body %>
-    <%= f.text_area :body, placeholder: "Write a comment" %>
-
-    <%= f.submit parent_id.present? ? "Reply" : "Comment" %>
-    <%= link_to "Cancel", post_path(post)%>
-<% end %>
+<div class="container m-2 max-w-full overflow-hidden justify-center">
+    <fieldset class="fieldset grid bg-gray-700 rounded-xl p-3 g-6 justify-center" >
+        <%= form_with(model: [post, comment], local: false) do |f| %>
+            <% parent_id ||= nil%>
+            <%= f.hidden_field :parent_id, value: parent_id %>
+            <% f.label :body, class:"label p-2" %>
+            <%= f.text_area :body, placeholder: "Write a comment", class:"textarea" %>
+            <div class="flex justify-center">
+                <%= f.submit parent_id.present? ? "Reply" : "Comment", class:"btn btn-sm btn-primary mr-2 mt-2" %>
+                <%= link_to "Cancel", post_path(post), class:"btn btn-sm btn-warning mt-2"%>
+            </div>
+        <% end %>
+    </fieldset>
+</div>
 

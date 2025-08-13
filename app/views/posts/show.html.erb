@@ -22,9 +22,11 @@
 
 <div class="container p-6">
     <h1 class="text-xl font-bold mb-3 text-start text-primary text-shadow gap-2">Comments</h1>
+    <div class="max-w-xs">
     <%= turbo_frame_tag "post_comment" do%>
         <%= link_to "Comment", new_post_comment_path(@post), class:"btn btn-md btn-primary mb-3"%>
     <% end %>
+    </div>
     <div class="container bg-gray-700 p-6 rounded-lg" >
     <%= turbo_frame_tag "post_comments" do %>
         <% if @comments.present? %>
