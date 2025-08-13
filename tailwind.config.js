@@ -9,7 +9,8 @@ module.exports = {
   theme: {
     extend: {},
   },
-  plugins: [
-    require('daisyui'),
-  ],
+  plugins: [require("daisyui")],
+  daisyui: {
+    themes: ["forest", "dark", "light", "cupcake", "bumblebee", "emerald", "synthwave", "corporate"],
+  },
 }

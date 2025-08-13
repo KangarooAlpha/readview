@@ -48,7 +48,7 @@
         </div>
         <% else %>
         <div class="relative"> 
-            <div class="card bg-base-100 card-border border-gray-700 shadow-lg z-10 relative">
+            <div class="card bg-base-100 card-border border-gray-700 shadow-lg z-10 relative rounded-xl">
                 <div class="card-body max-w-xl">
                 <%= link_to post.title, post_path(post), data: { turbo: false }, class: "text-primary no-underline hover:cursor-pointer hover:underline" %>
                 <% preview = post_preview_image(post) %>
