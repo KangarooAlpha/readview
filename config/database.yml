@@ -90,3 +90,6 @@ production:
 
   queue:
     <<: *defaults
+
+  cache:
+    <<: *defaults
