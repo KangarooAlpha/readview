@@ -15,10 +15,14 @@
         </div>
         <%= turbo_frame_tag "posts_show" do %>
             <div class="grid items-center justify-center gap-6">
+                <% if @posts.present? %>
                 <% @posts.each do |post| %>
                 <div class="w-xl text-center justify-center">
                     <%= render partial: "posts/post", locals: { post: post, context: "index" } %>
                 </div>
+                <% else %>
+                    <p>There aren't any posts yet, be the first to make one!</p>
+                <% end %>
             <% end %>
             </div>
         <% end %>
