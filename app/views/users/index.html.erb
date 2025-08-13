@@ -1,7 +1,7 @@
 
-<body class="bg-base-200 min-h-screen">
+<body class="bg-base-200">
 
-  <main class="max-w-5xl mx-auto flex gap-6">
+  <main class="max-w-5xl mx-auto flex gap-6 items-start">
 
     <div class="container border-primary flex-row justify-center gap-6">
 
@@ -24,11 +24,14 @@
         <% end %>
     </div>
 
-    <section class="mt-12">
+    <section class="mt-12 bg-gray-700 rounded-xl p-6 ">
       <h2 class="text-3xl font-semibold mb-4">Users</h2>
       <div class="space-y-2">
         <% @users.each do |u| %>
           <div>
+            <%= link_to user_path(u) do %>
+                <%=image_tag u.avatar_url_or_default, class: "h-12 w-12 object-cover rounded-full mr-2"%>
+            <% end %>
             <%= link_to "@#{u.username}", user_path(u), class: "link link-hover text-lg text-secondary" %>
           </div>
         <% end %>

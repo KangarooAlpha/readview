@@ -2,14 +2,19 @@
         <% if context == "post" %>
         <div class="container bg-gray-700 p-2 justify-center">
             <div class="container justify-center">
-            <h2 class="text-4xl font-bold text-center text-secondary text-shadow"><%= post.title %></h2>
-            <h2 class="text-l text-gray-500 text-end hover:underline">By: <%= link_to "@#{post.user.username}", user_path(post.user), data: {turbo: false}%></h2>
+                <h2 class="text-4xl font-bold text-center text-secondary text-shadow break-words"><%= post.title %></h2>
+                <div class="flex justify-end">
+                    <h2 class="flex text-l text-gray-500 text-end justify-end items-center hover:underline">
+                    <%=image_tag post.user.avatar_url_or_default, class: "h-12 w-12 object-cover rounded-full mr-2"%>
+                    <%= link_to "@#{post.user.username}", user_path(post.user), data: {turbo: false}%></h2>
+                </div>
             </div>
+            <div class="divider divider-primary"></div>
             <div class="container text-start grid gap-6">
                 <div data-controller="carousel" class="swiper max-w-xl mx-auto 2xl:w-autp">
                     <div class="swiper-wrapper max-w-xl 2xl:w-auto">
                         <% @images.each do |img| %>
-                            <div class="swiper-slide w-full max-w-xl overflow-auto 2xl:w-auto">
+                            <div class="swiper-slide w-full max-w-xl overflow-auto 2xl:w-auto items-center">
                             <%= image_tag url_for(img), class: "rounded-lg shadow-lg w-full max-w-xl h-auto 2xl:w-auto object-contain" %>
                             </div>
 
@@ -45,7 +50,7 @@
         <div class="relative"> 
             <div class="card bg-base-100 card-border border-gray-700 shadow-lg z-10 relative">
                 <div class="card-body max-w-xl">
-                <%= link_to post.title, post_path(post), data: { turbo: false }, class: "text-primary no-underline hover:cursor-pointer" %>
+                <%= link_to post.title, post_path(post), data: { turbo: false }, class: "text-primary no-underline hover:cursor-pointer hover:underline" %>
                 <% preview = post_preview_image(post) %>
                 <% if preview.present? %>
                     <div class="w-full max-w-xl mx-auto mb-3">

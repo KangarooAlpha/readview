@@ -2,11 +2,7 @@
     <div class="container grid max-w-2xl justify-center">
         <div class="hero bg-gray-700 max-w-2xl rounded-xl mb-6 w-xl">
             <div class="hero-content flex-col lg:flex-row"> 
-                <% if @user.avatar.attached? %>
-                    <%= image_tag url_for(@user.avatar), style: "height: 50px; width: 50px; object-fit: cover; border-radius: 50%" %>
-                <% elsif @user.avatar_url.present? %>
-                    <%= image_tag @user.avatar_url, style: "height: 50px; width: 50px; object-fit: cover; border-radius: 50%" %>
-                <% end %>
+                    <%= image_tag url_for(@user.avatar_url_or_default), class: "h-12 w-12 object-cover rounded-full" %>
                 <div>
                     <h1 class="text-5-xl font-bold"><%= @user.username %></h1>
                     <p>

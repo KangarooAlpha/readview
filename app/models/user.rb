@@ -19,16 +19,16 @@ class User < ApplicationRecord
   end
 
   def self.generate_unique_username(name)
-  base_username = name.parameterize(separator: "_")
-  username = base_username
-  counter = 1
+    base_username = name.parameterize(separator: "_")
+    username = base_username
+    counter = 1
 
-  while User.exists?(username: username)
-    username = "#{base_username}_#{counter}"
-    counter += 1
-  end
+    while User.exists?(username: username)
+      username = "#{base_username}_#{counter}"
+      counter += 1
+    end
 
-  username
+    username
   end
 
   validates :username, uniqueness: true
@@ -48,5 +48,15 @@ class User < ApplicationRecord
 
   def send_welcome_email
       UserMailer.welcome_email(self).deliver_later
+  end
+
+  def avatar_url_or_default
+    if avatar.attached?
+      avatar
+    elsif avatar_url.present?
+      avatar_url
+    else
+      ActionController::Base.helpers.asset_path("person_default.svg")
+    end
   end
 end
