@@ -1,0 +1,34 @@
+services:
+  - type: web
+    name: railview
+    env: ruby
+    plan: free
+    buildCommand: "./bin/render-build.sh"
+    startCommand: "bundle exec rails server"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: railview-db
+          property: connectionString
+      - key: RAILS_ENV
+        value: production
+      - key: RAILS_LOG_TO_STDOUT
+        value: enabled
+
+  - type: worker
+    name: solid-queue-worker
+    env: ruby
+    plan: free
+    buildCommand: "./bin/render-build.sh"
+    startCommand: "bundle exec solid_queue start"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: railview-db
+          property: connectionString
+      - key: RAILS_ENV
+        value: production
+
+databases:
+  - name: railview-db
+    plan: free
