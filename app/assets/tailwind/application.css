@@ -7,6 +7,9 @@
 
 @plugin "./daisyui";
 
+@plugin "daisyui" {
+  themes: all;
+}
 @theme{
     --font-lato: "Lato", sans-serif;
 }

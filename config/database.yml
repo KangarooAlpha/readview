@@ -81,6 +81,7 @@ test:
 production:
   defaults: &defaults
     url: <%= ENV["DATABASE_URL"] %>
+    adapter: postgresql
 
   primary:
     <<: *defaults

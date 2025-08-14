@@ -22,27 +22,30 @@
     <%= javascript_importmap_tags %>
 
     <link rel="stylesheet" href="https://unpkg.com/swiper@10/swiper-bundle.min.css" />
+    <html data-theme="dark"></html>
   </head>
 
-  <body class="p-0">
-    <header class="sticky top-0 gap-6 justify-center mb-8 z-50 b-0 ">
-      <div class="navbar sticky top-0 flex justify-between items-center justify-end gap-6 bg-primary mr-6">
+  <body class="p-0 m-0">
+    <header class="sticky top-0 gap-6 justify-center mb-6 z-50 b-0 ">
+      <div class="navbar sticky top-0 flex justify-between items-center justify-end gap-6 bg-neutral">
         <div class="flex-1"> <h1 class="text-xl font-bold font-italic text-white"><%= link_to "ReadView", authenticated_root_path%></h1>
 
         </div>
         <div class="flex items-center gap-4">
-        <% unless user_signed_in? %>
-          <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-sm btn-success" %>
-          <%= link_to "Log In", new_user_session_path, class: "btn btn-sm btn-secondary" %>
-        <% else %>
-          
-            <%= button_to "Sign Out", destroy_user_session_path, method: :delete, data: { turbo: false }, class: "btn btn-error btn-sm" %>
-            <%= link_to "Edit User", edit_user_registration_path, class: "btn btn-warning btn-sm" %>
-            <%= link_to user_path(current_user), class: "avatar" do %>
-              <div class="w-10 rounded-full overflow-hidden">
-                <img src="<%= current_user.avatar_url %>" alt="avatar" class="w-full h-full object-cover" />
-              </div>
-            <% end %>
+<% unless user_signed_in? %>
+  <%= link_to "Sign Up", new_user_registration_path, class: "btn btn-sm btn-neutral-content transition duration-200 hover:scale-105 hover:shadow-lg" %>
+  <%= link_to "Log In", new_user_session_path, class: "btn btn-sm btn-neutral-content transition duration-200 hover:scale-105 hover:shadow-lg" %>
+<% else %>
+  <%= button_to "Sign Out", destroy_user_session_path, method: :delete, data: { turbo: false }, class: "btn btn-base btn-sm transition duration-200 hover:bg-red-600 hover:text-white hover:scale-105 hover:shadow-md" %>
+  
+  <%= link_to "Edit User", edit_user_registration_path, class: "btn btn-neutral-content btn-sm transition duration-200 hover:bg-blue-600 hover:text-white hover:scale-105 hover:shadow-md" %>
+
+  <%= link_to user_path(current_user), class: "avatar transition duration-300 hover:scale-110 hover:ring-primary" do %>
+    <div class="w-10 rounded-full overflow-hidden">
+      <img src="<%= current_user.avatar_url %>" alt="avatar" class="object-cover" />
+    </div>
+  <% end %>
+
           
         <% end %>
         </div>
