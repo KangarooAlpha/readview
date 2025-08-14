@@ -1,34 +1,54 @@
 services:
   - type: web
-    name: railview
-    env: ruby
-    plan: free
+    name: readview
+    runtime: ruby
     buildCommand: "./bin/render-build.sh"
-    startCommand: "bundle exec rails server"
+    startCommand: "bundle exec puma -C config/puma.rb"
+    env: ruby
+    region: oregon
+    plan: free
+    autoDeploy: true
     envVars:
-      - key: DATABASE_URL
-        fromDatabase:
-          name: railview-db
-          property: connectionString
       - key: RAILS_ENV
         value: production
-      - key: RAILS_LOG_TO_STDOUT
-        value: enabled
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: readview-redis
+          property: connectionString
+      - key: DATABASE_URL
+        fromDatabase:
+          name: readview-db
+          property: connectionString
 
   - type: worker
-    name: solid-queue-worker
-    env: ruby
-    plan: free
+    name: readview-sidekiq
+    runtime: ruby
     buildCommand: "./bin/render-build.sh"
-    startCommand: "bundle exec solid_queue start"
+    startCommand: "bundle exec sidekiq"
+    env: ruby
+    region: oregon
+    plan: free
+    autoDeploy: true
     envVars:
-      - key: DATABASE_URL
-        fromDatabase:
-          name: railview-db
-          property: connectionString
       - key: RAILS_ENV
         value: production
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: readview-redis
+          property: connectionString
+      - key: DATABASE_URL
+        fromDatabase:
+          name: readview-db
+          property: connectionString
+
+  - type: redis
+    name: readview-redis
+    region: oregon
+    plan: free
 
 databases:
-  - name: railview-db
+  - name: readview-db
+    region: oregon
     plan: free
