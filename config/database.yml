@@ -91,6 +91,7 @@ production:
 
   queue:
     <<: *defaults
+    migrations_paths: db/queue_migrate
 
   cache:
     <<: *defaults
