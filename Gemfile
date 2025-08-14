@@ -65,7 +65,7 @@ end
 gem "devise", "~> 4.9"
 
 group :development, :test do
-  gem "rspec-rails", "~> 8.0.0"
+  gem "rspec-rails", "~> 8.0.2"
 end
 
 gem "omniauth"
