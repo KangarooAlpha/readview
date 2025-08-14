@@ -85,12 +85,14 @@ production:
 
   primary:
     <<: *defaults
+    database: readview_production
 
   cable:
     <<: *defaults
 
   queue:
     <<: *defaults
+    database: readview_production_queue
     migrations_paths: db/queue_migrate
 
   cache:
