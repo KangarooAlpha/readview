@@ -1,5 +1,5 @@
-<div class="flex justify-center items-center min-h-screen p-6 m-4">
-  <fieldset class="fieldset bg-gray-700 border-base-300 rounded-xl w-md p-6">
+<div class="flex justify-center items-center p-6 m-4 w-screen h-screen">
+  <fieldset class="fieldset bg-neutral border-base-300 rounded-xl p-6 max-w-2xl min-h-md">
     <legend class="fieldset-legend">Edit <%= resource_name.to_s.humanize %></legend>
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
       <%= render "devise/shared/error_messages", resource: resource %>
@@ -47,9 +47,10 @@
       </div>
     <% end %>
     <div><%= button_to "Cancel my account", registration_path(resource_name),
-    data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete,
-    class: "btn btn-md btn-error"%></div>
-
-    <%= link_to "Back", :back, class:"btn btn-sm btn-base" %>
+      data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete,
+      class: "btn btn-md btn-error flex"%></div>
+    <div class="flex justify-start">
+      <%= link_to "Back", :back, class:"btn btn-sm btn-base-100" %>
+    </div>
   </fieldset>
 </div>

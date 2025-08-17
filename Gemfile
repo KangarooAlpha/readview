@@ -87,3 +87,5 @@ gem "image_processing", "~> 1.2"
 gem "sidekiq"
 
 gem "redis"
+
+gem "dotenv-rails", groups: [ :development, :test ]

@@ -12,7 +12,7 @@
         <% end %>
         <%= @post.dislikes%>
     </div>
-    <div class="container rounded-lg bg-gray-700 m-3 p-3 justify-center">
+    <div class="container rounded-xl bg-gray-700 m-3 p-1 justify-center">
         <%= turbo_frame_tag @post do %>
             <%= render partial: "posts/post", locals: { post: @post, context: "post"}%>
         <% end %>
@@ -27,7 +27,7 @@
         <%= link_to "Comment", new_post_comment_path(@post), class:"btn btn-md btn-primary mb-3"%>
     <% end %>
     </div>
-    <div class="container bg-gray-700 p-6 rounded-lg" >
+    <div class="bg-gray-700 p-1 rounded-xl" >
     <%= turbo_frame_tag "post_comments" do %>
         <% if @comments.present? %>
             <%= render partial: "comments/comment", collection: @post.comments.where(parent_id: nil), as: :comment%>

@@ -1,47 +1,47 @@
+<body class="bg-base-200 text-base-content">
 
-<body class="bg-base-200">
-
-  <main class="max-w-5xl mx-auto flex gap-6 items-start">
-
-    <div class="container border-primary flex-row justify-center gap-6">
-
-        <h1 class="text-4xl font-bold mb-6 text-center text-primary text-shadow">Posts</h1>
-        <div class=" flex container justify-center pb-10">
-            <%= turbo_frame_tag "new_post" do %>
-            <div class="contaienr justify-center">
-                <%= link_to "Create Post", new_post_path(context: "index"), class: "btn btn-success btn-sm justify-end" %>
-            </div>
-            <% end %>
-        </div>
-        <%= turbo_frame_tag "posts_show" do %>
-            <div class="grid items-center justify-center gap-6">
-                <% if @posts.present? %>
-                    <% @posts.each do |post| %>
-                    <div class="w-xl text-center justify-center">
-                        <%= render partial: "posts/post", locals: { post: post, context: "index" } %>
-                    </div>
-                    <% end %>
-                <% else %>
-                    <p>There aren't any posts yet, be the first to make one!</p>
-                <% end %>
-            </div>
+  <main class="md:max-w-2xl md:h-auto mx-auto flex gap-6 items-start mt-6 px-4">
+    <div class="flex-1">
+      <h1 class="text-4xl font-bold mb-6 text-center text-primary drop-shadow-md">Posts</h1>
+      <div class="flex justify-center mb-8">
+        <%= turbo_frame_tag "new_post" do %>
+          <%= link_to "Create Post", new_post_path(context: "index"),
+              class: "btn btn-primary btn-sm transition duration-200 hover:scale-105 hover:shadow-lg" %>
         <% end %>
+      </div>
+      <%= turbo_frame_tag "posts_show" do %>
+        <div class="space-y-6">
+          <% if @posts.present? %>
+            <% @posts.each do |post| %>
+              <div class="bg-base-100 rounded-xl p-4 shadow-md transition hover:shadow-lg">
+                <%= render partial: "posts/post", locals: { post: post, context: "index" } %>
+              </div>
+            <% end %>
+          <% else %>
+            <p class="text-center text-gray-400 italic">There aren't any posts yet. Be the first to make one!</p>
+          <% end %>
+        </div>
+      <% end %>
     </div>
 
-    <section class="mt-12 bg-gray-700 rounded-xl p-6 ">
-      <h2 class="text-3xl font-semibold mb-4">Users</h2>
-      <div class="space-y-2">
+    <section class="sticky top-4 z-49 w-64 max-h-screen overflow-y-auto bg-neutral text-neutral-content rounded-xl p-6 shadow-lg m-4">
+
+      <h2 class="text-2xl font-semibold mb-4 border-b border-neutral-content pb-2">Users</h2>
+
+      <div class="space-y-4">
         <% @users.each do |u| %>
-          <div>
+          <div class="flex items-center hover:bg-neutral-focus px-2 py-1 rounded transition">
             <%= link_to user_path(u) do %>
-                <%=image_tag u.avatar_url_or_default, class: "h-12 w-12 object-cover rounded-full mr-2"%>
+              <%= image_tag u.avatar_url_or_default, class: "h-10 w-10 mr-2 object-cover rounded-full mr-3" %>
             <% end %>
-            <%= link_to "@#{u.username}", user_path(u), class: "link link-hover text-lg text-secondary" %>
+            <%= link_to "@#{u.username}", user_path(u), class: "text-base hover:underline" %>
           </div>
         <% end %>
       </div>
+
     </section>
 
   </main>
+  
 
 </body>
