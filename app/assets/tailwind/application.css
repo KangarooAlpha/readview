@@ -5,9 +5,6 @@
 @source "../../../app/javascript/**/*.js";
 @source "../../../app/views/**/*";
 
-@import "flowbite/src/themes/default";
-@source "../../../node_modules/flowbite";
-@plugin "flowbite/plugin";
 
 @tailwind base;
 @tailwind utilities;
@@ -16,5 +13,3 @@
 @theme{
     --font-lato: "Lato", sans-serif;
 }
-
-@import "flowbite";

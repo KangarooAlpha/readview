@@ -17,22 +17,22 @@
 
     <div class="space-y-1">
       <%= f.label :title, class: "text-sm font-semibold text-indigo-300" %>
-      <%= f.text_field :title, class: "w-full input input-bordered input-md bg-gray-100 text-black focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-md" %>
+      <%= f.text_field :title, class: "input input-bordered w-full bg-gray-900 text-white placeholder-gray-500" %>
     </div>
 
     <div class="space-y-1">
       <%= label_tag :body, "Text Content", class: "text-sm font-semibold text-indigo-300" %>
-      <%= text_area_tag :body, nil, rows: 5, class: "w-full textarea textarea-bordered bg-gray-100 text-black focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-md" %>
+      <%= text_area_tag :body, nil, rows: 5, class: "input input-bordered w-full bg-gray-900 text-white placeholder-gray-500" %>
     </div>
 
     <div class="space-y-1">
       <%= label_tag :images, "Upload Image(s)", class: "text-sm font-semibold text-indigo-300" %>
-      <%= file_field_tag :images, multiple: true, accept: "image/*", name: "images[]", class: "file-input file-input-bordered w-full bg-white text-gray-800" %>
+      <%= file_field_tag :images, multiple: true, accept: "image/*", name: "images[]", class: "file-input file-input-bordered w-full mt-1" %>
     </div>
 
     <div class="space-y-1">
       <%= label_tag :video, "Upload Video", class: "text-sm font-semibold text-indigo-300" %>
-      <%= file_field_tag :video, accept: "video/*", class: "file-input file-input-bordered w-full bg-white text-gray-800" %>
+      <%= file_field_tag :video, accept: "video/*", class: "file-input file-input-bordered w-full mt-1" %>
     </div>
 
     <div class="pt-4 flex justify-center gap-4">

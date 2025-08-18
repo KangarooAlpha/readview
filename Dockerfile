@@ -2,8 +2,8 @@
 # check=error=true
 
 # This Dockerfile is designed for production, not development. Use with Kamal or build'n'run by hand:
-# docker build -t odinbook .
-# docker run -d -p 80:80 -e RAILS_MASTER_KEY=<value from config/master.key> --name odinbook odinbook
+# docker build -t readview .
+# docker run -d -p 80:80 -e RAILS_MASTER_KEY=<value from config/master.key> --name readview readview
 
 # For a containerized dev environment, see Dev Containers: https://guides.rubyonrails.org/getting_started_with_devcontainer.html
 
@@ -42,10 +42,12 @@ RUN bundle install && \
 # Copy application code
 COPY . .
 
+
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
 # Precompiling assets for production without requiring secret RAILS_MASTER_KEY
+ENV REDIS_URL=redis://localhost:6379/1
 RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
 
 
