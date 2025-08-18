@@ -1,56 +1,69 @@
-<div class="flex justify-center items-center p-6 m-4 w-screen h-screen">
-  <fieldset class="fieldset bg-neutral border-base-300 rounded-xl p-6 max-w-2xl min-h-md">
-    <legend class="fieldset-legend">Edit <%= resource_name.to_s.humanize %></legend>
+<div class="flex justify-center items-center p-6 w-screen min-h-full bg-gradient-to-br from-gray-800 to-gray-900">
+  <fieldset class="bg-gray-900 border border-base-300 rounded-2xl shadow-xl p-8 max-w-3xl w-full text-gray-100 transition duration-300 hover:shadow-2xl">
+    <legend class="fieldset-legend text-xl font-semibold text-primary mb-4">
+      Edit <%= resource_name.to_s.humanize %>
+    </legend>
+
     <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
       <%= render "devise/shared/error_messages", resource: resource %>
 
-      <div class="field">
-        <%= f.label :avatar, class:"label"%><br />
-        <%= f.file_field :avatar, class:"file-input file-input-xs" %>
+      <div class="field mb-4">
+        <%= f.label :avatar, class:"label text-white" %>
+        <%= f.file_field :avatar, class:"file-input file-input-sm w-full" %>
       </div>
 
-      <div class="field">
-        <%= f.label :username, class:"label" %><br />
-        <%= f.text_field :username, autofocus: true , class:"input"%>
+      <div class="field mb-4">
+        <%= f.label :username, class:"label text-white" %>
+        <%= f.text_field :username, autofocus: true, class:"input input-bordered w-full bg-gray-900 text-white placeholder-gray-500" %>
       </div>
 
-      <div class="field">
-        <%= f.label :email, class:"label"  %><br />
-        <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"input" %>
+      <div class="field mb-4">
+        <%= f.label :email, class:"label text-white" %>
+        <%= f.email_field :email, autofocus: true, autocomplete: "email", class:"input input-bordered w-full bg-gray-900 text-white placeholder-gray-500" %>
       </div>
 
       <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-        <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+        <div class="text-sm text-yellow-400 mb-4">
+          Currently waiting confirmation for: <%= resource.unconfirmed_email %>
+        </div>
       <% end %>
 
-      <div class="field">
-        <%= f.label :password, class:"label"  %> <i>(leave blank if you don't want to change it)</i><br />
-        <%= f.password_field :password, autocomplete: "new-password", class:"input" %>
+      <div class="field mb-4">
+        <%= f.label :password, class:"label text-white" %>
+        <i class="text-sm text-gray-400">(Leave blank if you don't want to change it)</i>
+        <%= f.password_field :password, autocomplete: "new-password", class:"input input-bordered w-full bg-gray-900 text-white placeholder-gray-500" %>
         <% if @minimum_password_length %>
-          <br />
-          <em><%= @minimum_password_length %> characters minimum</em>
+          <p class="text-xs text-gray-400 mt-1"><%= @minimum_password_length %> characters minimum</p>
         <% end %>
       </div>
 
-      <div class="field">
-        <%= f.label :password_confirmation, class:"label"  %><br />
-        <%= f.password_field :password_confirmation, autocomplete: "new-password", class:"input" %>
+      <div class="field mb-4">
+        <%= f.label :password_confirmation, class:"label text-white" %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class:"input input-bordered w-full bg-gray-900 text-white placeholder-gray-500" %>
       </div>
 
-      <div class="field">
-        <%= f.label :current_password, class:"label"  %> <i>(we need your current password to confirm your changes)</i><br />
-        <%= f.password_field :current_password, autocomplete: "current-password", class:"input" %>
+      <div class="field mb-6">
+        <%= f.label :current_password, class:"label text-white" %>
+        <i class="text-sm text-gray-400">(We need your current password to confirm changes)</i>
+        <%= f.password_field :current_password, autocomplete: "current-password", class:"input input-bordered w-full bg-gray-900 text-white placeholder-gray-500" %>
       </div>
 
-      <div class="actions">
-        <%= f.submit "Update", class:"btn btn-sm btn-success" %>
+      <div class="actions flex justify-between items-center mb-4">
+        <%= f.submit "Update", class:"bg-gradient-to-r from-green-400
+         via-green-500 to-green-600 text-white font-semibold px-4 py-2 rounded-full 
+         shadow-md hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out hover:bg-gradient-to-br" %>
+        <%= link_to "Back", :back, class:"bg-gray-700 text-white font-semibold px-4 py-2 rounded-full 
+         shadow-md hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out hover:bg-gradient-to-br" %>
       </div>
     <% end %>
-    <div><%= button_to "Cancel my account", registration_path(resource_name),
-      data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" }, method: :delete,
-      class: "btn btn-md btn-error flex"%></div>
-    <div class="flex justify-start">
-      <%= link_to "Back", :back, class:"btn btn-sm btn-base-100" %>
+
+    <div class="mt-4">
+      <%= button_to "Cancel my account", registration_path(resource_name),
+        method: :delete,
+        data: { confirm: "Are you sure?", turbo_confirm: "Are you sure?" },
+        class: "bg-gradient-to-r from-red-400
+         via-red-500 to-red-600 text-white font-semibold px-4 py-2 rounded-full 
+         shadow-md hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out hover:bg-gradient-to-br" %>
     </div>
   </fieldset>
 </div>

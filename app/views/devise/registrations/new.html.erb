@@ -1,43 +1,47 @@
-<div class="flex justify-center items-center p-6 m-4 w-screen h-screen">
-  <fieldset class="fieldset bg-neutral border-base-300 rounded-xl p-6 max-w-2xl min-h-md">
-    <legend class="fieldset-legend">Sign up</legend>
-      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-        <%= render "devise/shared/error_messages", resource: resource %>
+<div class="flex justify-center items-center p-6 w-screen min-h-full bg-gradient-to-br from-gray-800 to-gray-900">
+  <fieldset class="bg-gray-900 border border-base-300 rounded-2xl shadow-xl p-8 max-w-3xl w-full text-gray-100 transition duration-300 hover:shadow-2xl">
+    <legend class="text-3xl font-bold text-primary mb-6 text-center drop-shadow">Sign up</legend>
 
-        <div class="field p-1">
-          <%= f.label :avatar, class:"label" %><br />
-          <%= f.file_field :avatar, class:"file-input file-input-xs" %>
-        </div>
+    <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { multipart: true }) do |f| %>
+      <%= render "devise/shared/error_messages", resource: resource %>
 
-        <div class="field p-1">
-          <%= f.label :username, class:"label" %><br />
-          <%= f.text_field :username, autofocus: true, class:"input" %>
-        </div>
-
-        <div class="field p-1">
-          <%= f.label :email, class:"label" %><br />
-          <%= f.email_field :email, autocomplete: "email", class:"input" %>
-        </div>
-
-        <div class="field p-1">
-          <%= f.label :password, class:"label" %>
-          <% if @minimum_password_length %>
-          <em>(<%= @minimum_password_length %> characters minimum)</em>
-          <% end %><br />
-          <%= f.password_field :password, autocomplete: "new-password", class:"input"%>
-        </div>
-
-        <div class="field p-1">
-          <%= f.label :password_confirmation, class:"label" %><br />
-          <%= f.password_field :password_confirmation, autocomplete: "new-password", class:"input" %>
-        </div>
-
-        <div class="actions py-1">
-          <%= f.submit "Sign up", class:"btn btn-md- btn-success" %>
-        </div>
-      <% end %>
-      <div class="container grid gap-2">
-        <%= render "devise/shared/links" %>
+      <div class="mb-4">
+        <%= f.label :avatar, "Avatar (optional)", class: "label text-sm font-semibold text-gray-300" %>
+        <%= f.file_field :avatar, class: "file-input file-input-bordered w-full mt-1" %>
       </div>
+
+      <div class="mb-4">
+        <%= f.label :username, class: "label text-sm font-semibold text-gray-300" %>
+        <%= f.text_field :username, autofocus: true, class: "input input-bordered w-full bg-gray-900 text-white placeholder-gray-500" %>
+      </div>
+
+      <div class="mb-4">
+        <%= f.label :email, class: "label text-sm font-semibold text-gray-300" %>
+        <%= f.email_field :email, autocomplete: "email", class: "input input-bordered w-full bg-gray-900 text-white placeholder-gray-500" %>
+      </div>
+
+      <div class="mb-4">
+        <%= f.label :password, class: "label text-sm font-semibold text-gray-300" %>
+        <% if @minimum_password_length %>
+          <em class="text-xs text-gray-400">(Minimum <%= @minimum_password_length %> characters)</em>
+        <% end %>
+        <%= f.password_field :password, autocomplete: "new-password", class: "input input-bordered w-full bg-gray-900 text-white placeholder-gray-500" %>
+      </div>
+
+      <div class="mb-6">
+        <%= f.label :password_confirmation, class: "label text-sm font-semibold text-gray-300" %>
+        <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "input input-bordered w-full bg-gray-900 text-white placeholder-gray-500" %>
+      </div>
+
+      <div class="flex justify-center">
+        <%= f.submit "Sign up", class: "bg-gradient-to-r from-green-400
+         via-green-500 to-green-600 text-white font-semibold px-4 py-2 rounded-full 
+         shadow-md hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out hover:bg-gradient-to-br" %>
+      </div>
+    <% end %>
+
+    <div class="mt-6 text-center text-sm text-gray-400">
+      <%= render "devise/shared/links" %>
+    </div>
   </fieldset>
 </div>

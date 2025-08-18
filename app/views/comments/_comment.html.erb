@@ -1,54 +1,53 @@
-<div class="py-1">
+<div class="py-2">
   <%= turbo_frame_tag dom_id(comment) do %>
-    <div class="bg-gray-800 p-4 rounded-lg shadow text-gray-200 break-words">
-      <div class="flex bg-gray-800 p-4 rounded-lg shadow text-gray-200 break-words">
-         <div class="flex items-center gap-2">
-            <%= image_tag comment.user.avatar_url_or_default, alt: "#{comment.user.username}'s avatar", class: "w-6 h-6 rounded-full" %>
-            <span class="font-semibold text-blue-400">
-               @<%= link_to comment.user.username, user_path(comment.user), data: { turbo: false } %>
-            </span>
-         </div>
-         <div class="divider divider-horizontal"></div>
-         <div class="break-words max-w-2xl"><p class="break-words"><%= comment.body %></p></div>
+    <div class="bg-gray-900 p-4 rounded-xl shadow-lg text-gray-200 space-y-3 transition duration-300 hover:shadow-2xl">
+      <div class="flex items-start gap-3">
+        <%= image_tag comment.user.avatar_url_or_default, alt: "#{comment.user.username}'s avatar", class: "w-8 h-8 rounded-full object-cover shadow-md" %>
 
+        <div class="flex-1">
+          <div class="flex items-center gap-2 text-sm text-blue-400 font-semibold">
+            @<%= link_to comment.user.username, user_path(comment.user), class: "hover:underline", data: { turbo: false } %>
+          </div>
+          <p class="mt-1 text-gray-300 text-base break-words leading-relaxed"><%= comment.body %></p>
+        </div>
       </div>
-      <div class="flex items-center gap-2 text-sm">
-         <%= button_to comment_react_path(comment, reaction: "like"), class:"btn btn-xs btn-primary" do %>
-            <%= image_tag "arrow_upward.svg", class: "w-4 h-4" %>
-         <% end %>
-         <span><%= comment.likes %></span>
+      <div class="flex items-center gap-3 text-sm">
+        <%= button_to comment_react_path(comment, reaction: "like"), class: "inline-flex items-center gap-1 px-3 py-1.5 bg-gradient-to-r from-purple-600 to-blue-500 text-white rounded-full text-xs hover:scale-105 transition-transform duration-200" do %>
+          <%= image_tag "arrow_upward.svg", class: "w-4 h-4" %>
+        <% end %>
+        <span class="text-gray-400"><%= comment.likes %></span>
 
-         <%= button_to comment_react_path(comment, reaction: "dislike"), class:"btn btn-xs btn-secondary" do %>
-            <%= image_tag "arrow_downward.svg", class: "w-4 h-4" %>
-         <% end %>
-         <span><%= comment.dislikes %></span>
+        <%= button_to comment_react_path(comment, reaction: "dislike"), class: "inline-flex items-center gap-1 px-3 py-1.5 bg-gradient-to-r from-pink-500 to-orange-400 text-white rounded-full text-xs hover:scale-105 transition-transform duration-200" do %>
+          <%= image_tag "arrow_downward.svg", class: "w-4 h-4" %>
+        <% end %>
+        <span class="text-gray-400"><%= comment.dislikes %></span>
       </div>
-
-      <div class="mt-4 flex gap-2 text-center items-center juestify-start">
-         <%= turbo_frame_tag "comment_reply_#{comment.id}", class:"inline-flex" do %>
+      <div class="flex items-center gap-3 mt-2 text-xs font-medium">
+        <%= turbo_frame_tag "comment_reply_#{comment.id}" do %>
           <%= link_to "Reply", new_post_comment_path(post_id: comment.post.id, parent_id: comment.id),
-               method: :get,
-               form: { data: { turbo_frame: "comment_reply_#{comment.id}" } },
-               class: " btn btn-tertiary btn-xs hover:underline" %>
-         <% end %>
-         <% if comment.user == current_user %>
-         
-         <%= link_to "Edit", edit_post_comment_path(comment.post, comment),
-               class: "btn btn-xs btn-primary z-20" %>
-        
-          <%= button_to "Delete", post_comment_path(comment.post, comment), method: :delete,
-               form: { data: { turbo_confirm: "Are you sure?" } },
-               class: "btn btn-xs btn-error" %>
-         <% end %>
-      </div>
-    </div>
+              method: :get,
+              form: { data: { turbo_frame: "comment_reply_#{comment.id}" } },
+              class: "px-3 py-1 text-indigo-400 hover:underline hover:text-indigo-300 transition" %>
+        <% end %>
 
-    <%= turbo_frame_tag "comment_replies_#{comment.id}" do %>
-      <% comment.replies.each do |c| %>
-         <div class="ml-5">
-            <%= render partial: "comments/comment", object: c %>
-         </div>
+        <% if comment.user == current_user %>
+          <%= link_to "Edit", edit_post_comment_path(comment.post, comment),
+              class: "px-3 py-1 text-yellow-400 hover:underline hover:text-yellow-300 transition" %>
+
+          <%= button_to "Delete", post_comment_path(comment.post, comment),
+              method: :delete,
+              form: { data: { turbo_confirm: "Are you sure?" } },
+              class: "px-3 py-1 text-red-500 hover:underline hover:text-red-300 transition" %>
+        <% end %>
+      </div>
+      <%= turbo_frame_tag "comment_replies_#{comment.id}" do %>
+        <% comment.replies.each do |reply| %>
+          <div class="ml-5 border-l-2 border-gray-600 pl-4 mt-3">
+            <%= render partial: "comments/comment", object: reply %>
+          </div>
+        <% end %>
       <% end %>
-    <% end %>
+      
+    </div>
   <% end %>
 </div>

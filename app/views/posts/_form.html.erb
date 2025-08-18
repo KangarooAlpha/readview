@@ -1,45 +1,51 @@
-<fieldset class="fieldset flex bg-neutral rounded-xl p-6 g-6 justify-center" >
-    <%= form_with model: post, data: { turbo_frame: dom_id(post) }, multipart: true do |f| %>
-        <%= hidden_field_tag :context, @context %>
+<fieldset class=" bg-gray-800 text-white rounded-xl shadow-lg p-6 w-full max-w-3xl mx-auto space-y-4 transition-all duration-300">
+  <%= form_with model: post, data: { turbo_frame: dom_id(post) }, multipart: true do |f| %>
+    <%= hidden_field_tag :context, @context %>
 
-        <% if post.errors.any? %>
-            <div class="alert alert-error shadow-sm">
-                <div>
-                <strong><%= pluralize(post.errors.count, "error") %> prevented this post from being saved:</strong>
-                <ul class="list-disc list-inside mt-2 text-sm">
-                    <% post.errors.full_messages.each do |msg| %>
-                    <li><%= msg %></li>
-                    <% end %>
-                </ul>
-                </div>
-            </div>
-            <% end %>
-            
-        <div class="my-2">
-            <%= f.label :title, class:"label" %>
-            <%= f.text_field :title, class:"input w-full" %>
-        </div>
-        <div class="my-2">
-            <%= label_tag :body, "Text Content", class:"label" %>
-            <%= text_area_tag :body, nil, class: "textarea w-full" %>
-        </div>
-        <div class="my-2">
-            <%= label_tag :images, "Upload Image(s)", class:"label" %>
-            <%= file_field_tag :images, multiple: true, accept: "image/*", name: "images[]", class:"file-input file-input-xs w-full" %>
-        </div class="my-2">
-        <div class="g-6">
-            <%= label_tag :video, "Upload Video", class:"label"%>
-            <%= file_field_tag :video, accept: "video/*", class:"file-input file-input-xs w-full" %>
-        </div>
-        <div class="my-2 g-6 p-2 justify-center flex" >
-            <%= f.submit class: "btn btn-sm btn-success mr-2"%>
-            <% if context == "post" %>
-                <%= link_to "Cancel", post_path(post), class: "btn btn-sm btn-error"%>
-            <% elsif context == "useer"%>
-                <%= link_to "Cancel", user_path(user), class: "btn btn-sm btn-error"%>
-            <% else %>
-                <%= link_to "Cancel", users_path, class: "btn btn-sm btn-error"%>
-            <% end %>
-        </div>
+    <% if post.errors.any? %>
+      <div class="bg-red-500/10 border border-red-500 text-red-300 p-4 rounded-lg shadow mb-4">
+        <strong class="block mb-2">
+          <%= pluralize(post.errors.count, "error") %> prevented this post from being saved:
+        </strong>
+        <ul class="list-disc list-inside text-sm space-y-1">
+          <% post.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+          <% end %>
+        </ul>
+      </div>
     <% end %>
+
+    <div class="space-y-1">
+      <%= f.label :title, class: "text-sm font-semibold text-indigo-300" %>
+      <%= f.text_field :title, class: "w-full input input-bordered input-md bg-gray-100 text-black focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-md" %>
+    </div>
+
+    <div class="space-y-1">
+      <%= label_tag :body, "Text Content", class: "text-sm font-semibold text-indigo-300" %>
+      <%= text_area_tag :body, nil, rows: 5, class: "w-full textarea textarea-bordered bg-gray-100 text-black focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded-md" %>
+    </div>
+
+    <div class="space-y-1">
+      <%= label_tag :images, "Upload Image(s)", class: "text-sm font-semibold text-indigo-300" %>
+      <%= file_field_tag :images, multiple: true, accept: "image/*", name: "images[]", class: "file-input file-input-bordered w-full bg-white text-gray-800" %>
+    </div>
+
+    <div class="space-y-1">
+      <%= label_tag :video, "Upload Video", class: "text-sm font-semibold text-indigo-300" %>
+      <%= file_field_tag :video, accept: "video/*", class: "file-input file-input-bordered w-full bg-white text-gray-800" %>
+    </div>
+
+    <div class="pt-4 flex justify-center gap-4">
+      <%= f.submit "Submit", class: "bg-gradient-to-r from-green-400 to-green-600 text-white font-medium px-6 py-2 rounded-full transition duration-300 shadow hover:scale-105 hover:cursor-pointer" %>
+
+      <% if context == "post" %>
+        <%= link_to "Cancel", post_path(post), class: "bg-gradient-to-r from-red-400 to-red-600 text-white font-medium px-6 py-2 rounded-full transition duration-300 shadow hover:scale-105" %>
+      <% elsif context == "user" %>
+        <%= link_to "Cancel", user_path(current_user), class: "bg-gradient-to-r from-red-400 to-red-600 text-white font-medium px-6 py-2 rounded-full transition duration-300 shadow hover:scale-105" %>
+      <% else %>
+        <%= link_to "Cancel", users_path, class: "bg-gradient-to-r from-red-400 to-red-600 text-white font-medium px-6 py-2 rounded-full transition duration-300 shadow hover:scale-105" %>
+      <% end %>
+    </div>
+
+  <% end %>
 </fieldset>

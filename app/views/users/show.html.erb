@@ -1,61 +1,79 @@
-<div class="flex justify-center">
-    <div class="container grid max-w-2xl justify-center">
-        <div class="hero bg-neutral bg-neutral-content max-w-2xl rounded-xl mb-6 w-xl">
-            <div class="hero-content flex-col lg:flex-row"> 
-                    <%= image_tag url_for(@user.avatar_url_or_default), class: "h-12 w-12 object-cover rounded-full" %>
-                <div>
-                    <h1 class="text-5-xl font-bold"><%= @user.username %></h1>
-                    <p>
-                        <% unless @user == current_user%>
-                            <% unless current_user.followed_users.include?(@user) %>
-                                <%= button_to "Follow #{@user.username}", followings_path(followed_id: @user.id), method: :post, class: "btn btn-success btn-sm justify-end" %>
-                            <% else %>
-                                <% following = current_user.active_rel.find_by(followed_id: @user.id) %>
-                                <%= button_to "Unfollow #{@user.username}", following_path(following), method: :delete, class: "btn btn-error btn-sm justify-end" %>
-                            <% end %>
-                        <% else %>
-                            <%= turbo_frame_tag "new_post" do%>
-                                <%= link_to "Create Post", new_post_path(context: "user"), class: "btn btn-success btn-sm justify-end" %>
-                            <% end %>
-                        <% end %>
+<div class="flex flex-col md:flex-row justify-center items-start container mx-auto gap-6 px-4 py-6 flex-grow">
+  <div class="flex-1 max-w-3xl rounded-xl bg-gray-900 p-6 shadow-lg ">
 
-                    </p>
-                </div>
-            </div>
+    <!-- User Info Card -->
+    <div class="flex flex-col items-center pb-10">
+      <div class="hero-content flex-col lg:flex-row gap-6 py-6 px-8">
 
-        </div>
+        <%= image_tag url_for(@user.avatar_url_or_default), class: "h-16 w-16 object-cover rounded-full shadow-lg" %>
+
         <div>
-        <h1 class="text-4xl font-bold mb-6 text-center text-primary text-shadow">Posts</h1>
-            <div id="posts">
-                <%= turbo_frame_tag "posts_show" do %>
-                    <% if @user.posts.present? %>
-                        <div class="grid items-center justify-center gap-6">
-                            <% @user.posts.each do |post| %>
-                            <div class="w-xl text-center justify-center">
-                                <%= render partial: "posts/post", locals: { post: post, context: "index"}%>
-                            </div>
-                            <% end %>
-                        </div>
-                    <% else %>
-                        <div class="container bg-gray-700 text-center rounded-xl p-6">
-                            <p>This user doesn't have any posts yet.</p>
-                        </div>
-                    <% end %>
-                <% end %>
-            </div>
-        </div>
-    </div>
-    <% if @user.followed_users.any?%>
-    <section class="mt-12">
-        <h2 class="text-3xl font-semibold mb-4">Followed Users</h2>
-        <div class="space-y-2">
-        <% @user.followed_users.each do |u| %>
-            <div>
-                <%= link_to "@#{u.username}", user_path(u), class: "link link-hover text-lg text-secondary" %>
-            </div>
-        <% end %>
-        </div >
-    <% end %>
-    </section>
+          <h1 class="text-3xl font-bold text-indigo-400 mb-2"><%= @user.username %></h1>
 
+          <% unless @user == current_user %>
+            <% unless current_user.followed_users.include?(@user) %>
+              <%= button_to "Follow #{@user.username}",
+                  followings_path(followed_id: @user.id),
+                  method: :post,
+                  class: "text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br
+               focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg
+               text-sm px-5 py-2 text-center me-2 mb-2 transition transform hover:scale-[1.02] duration-300 ease-in-out" %>
+            <% else %>
+              <% following = current_user.active_rel.find_by(followed_id: @user.id) %>
+              <%= button_to "Unfollow #{@user.username}",
+                  following_path(following),
+                  method: :delete,
+                  class: "text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br
+               focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg
+               text-sm px-5 py-2 text-center me-2 mb-2 transition transform hover:scale-[1.02] duration-300 ease-in-out" %>
+            <% end %>
+          <% else %>
+            <%= turbo_frame_tag "new_post" do %>
+              <%= link_to "Create Post", new_post_path(context: "user"),
+                  class: "text-white bg-gradient-to-r from-cyan-400 via-cyan-500 to-cyan-600 hover:bg-gradient-to-br
+               focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg
+               text-sm px-5 py-2 text-center me-2 mb-2 transition transform hover:scale-[1.02] duration-300 ease-in-out" %>
+            <% end %>
+          <% end %>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- User's Posts Section -->
+    <div class="flex-1 max-w-3xl rounded-xl bg-gray-900 p-6 gap-10 shadow-lg">
+      <h1 class="text-4xl font-bold mb-6 text-center text-white drop-shadow">Posts</h1>
+      <div id="posts" class="space-y-6">
+        <%= turbo_frame_tag "posts_show" do %>
+          <% if @user.posts.present? %>
+            <% @user.posts.each do |post| %>
+              <div class="bg-white rounded-xl shadow-md dark:bg-gray-800 dark:border-gray-700
+                transition transform hover:scale-[1.02] hover:shadow-xl duration-300 ease-in-out p-4 mb-4">
+                <%= render partial: "posts/post", locals: { post: post, context: "index" } %>
+              </div>
+            <% end %>
+          <% else %>
+            <div class="bg-gray-700 text-white text-center rounded-xl p-6 shadow-inner">
+              <p class="text-gray-300 italic">This user doesn't have any posts yet.</p>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Followed Users Section -->
+    <% if @user.followed_users.any? %>
+      <section class="mt-16">
+        <h2 class="text-3xl font-semibold mb-4 text-indigo-400">Followed Users</h2>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <% @user.followed_users.each do |u| %>
+            <%= link_to "@#{u.username}", user_path(u),
+                class: "block bg-gradient-to-br from-gray-700 to-gray-800 text-white px-4 py-3 rounded-xl
+                hover:scale-105 transition duration-300 hover:shadow-lg hover:text-indigo-300" %>
+          <% end %>
+        </div>
+      </section>
+    <% end %>
+
+  </div>
 </div>

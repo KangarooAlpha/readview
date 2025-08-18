@@ -5,11 +5,16 @@
 @source "../../../app/javascript/**/*.js";
 @source "../../../app/views/**/*";
 
-@plugin "./daisyui";
+@import "flowbite/src/themes/default";
+@source "../../../node_modules/flowbite";
+@plugin "flowbite/plugin";
 
-@plugin "daisyui" {
-  themes: all;
-}
+@tailwind base;
+@tailwind utilities;
+
+
 @theme{
     --font-lato: "Lato", sans-serif;
 }
+
+@import "flowbite";

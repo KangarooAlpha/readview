@@ -5,12 +5,13 @@ module.exports = {
     './app/helpers/**/*.rb',
     './app/javascript/**/*.js',
     './app/assets/stylesheets/**/*.css',
+    './node_modules/flowbite/**/*.js'
+
   ],
   theme: {
     extend: {},
   },
-  plugins: [require("daisyui")],
-  daisyui: {
-    themes: ["forest", "dark", "light", "cupcake", "bumblebee", "emerald", "synthwave", "corporate"],
-  },
+  plugins: [
+    require('flowbite/plugin'),
+  ],
 }

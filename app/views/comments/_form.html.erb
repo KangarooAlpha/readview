@@ -1,15 +1,22 @@
-<div class="container m-2 max-w-full overflow-hidden justify-center">
-    <fieldset class="fieldset grid bg-gray-700 rounded-xl p-3 g-6 justify-center" >
-        <%= form_with(model: [post, comment], local: false) do |f| %>
-            <% parent_id ||= nil%>
-            <%= f.hidden_field :parent_id, value: parent_id %>
-            <% f.label :body, class:"label p-2" %>
-            <%= f.text_area :body, placeholder: "Write a comment", class:"textarea" %>
-            <div class="flex justify-center">
-                <%= f.submit parent_id.present? ? "Reply" : "Comment", class:"btn btn-sm btn-primary mr-2 mt-2" %>
-                <%= link_to "Cancel", post_path(post), class:"btn btn-sm btn-warning mt-2"%>
-            </div>
-        <% end %>
-    </fieldset>
-</div>
+<div class="container m-2 max-w-3xl mx-auto overflow-hidden">
+  <fieldset class="bg-gray-900 rounded-xl p-6 shadow-lg space-y-4 transition duration-300 hover:shadow-2xl">
+    <%= form_with(model: [post, comment], local: false) do |f| %>
+      <% parent_id ||= nil %>
+      <%= f.hidden_field :parent_id, value: parent_id %>
+      <div>
+        <%= f.label :body, "Your #{parent_id.present? ? 'Reply' : 'Comment'}", class: "block text-sm font-semibold text-gray-300 mb-1" %>
+        <%= f.text_area :body, placeholder: "Write something thoughtful...", class: "textarea textarea-bordered w-full bg-gray-900 text-gray-100 placeholder-gray-500 focus:ring-2 focus:ring-primary focus:outline-none transition duration-200" %>
+      </div>
 
+      <div class="flex justify-center gap-3 pt-2">
+        <%= f.submit parent_id.present? ? "Reply" : "Comment", class: "bg-gradient-to-r from-green-400
+         via-green-500 to-green-600 text-white font-semibold px-4 py-2 rounded-full 
+         shadow-md hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out hover:bg-gradient-to-br" %>
+        
+        <%= link_to "Cancel", post_path(post),
+         class: "bg-gradient-to-r from-red-400 via-red-500 to-red-600 text-white font-semibold px-4 py-2 rounded-full 
+         shadow-md hover:scale-105 hover:shadow-lg transition duration-300 ease-in-out hover:bg-gradient-to-br" %>
+      </div>
+    <% end %>
+  </fieldset>
+</div>
