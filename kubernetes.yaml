@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: readview
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      service: ruby-on-rails
+  template:
+    metadata:
+      labels:
+        service: ruby-on-rails
+    spec:
+      containers:
+        - name: ruby-on-rails-container
+          image: kangarooalpha/readview:latest
+          imagePullPolicy: Always
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: readview
+  namespace: default
+spec:
+  type: NodePort
+  selector:
+    service: ruby-on-rails
+  ports:
+    - port: 3000
+      targetPort: 3000
+      nodePort: 30001
