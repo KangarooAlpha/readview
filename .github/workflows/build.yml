@@ -1,4 +1,4 @@
-name: Build and push Docker image
+name: Build and push Docker image to Docker and AWS ECR
 
 on:
   push:
@@ -27,10 +27,26 @@ jobs:
         run: |
           REPO_NAME_LOWER=$(echo "${{ github.event.repository.name }}" | tr '[:upper:]' '[:lower:]')
           echo "repo=$REPO_NAME_LOWER" >> "$GITHUB_OUTPUT"
+          
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}  
 
-      - name: Build and push
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push to both registries
         uses: docker/build-push-action@v6
         with:
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: ${{ vars.DOCKER_USERNAME }}/${{ steps.vars.outputs.repo }}:latest
+          tags: |
+            ${{ vars.DOCKER_USERNAME }}/${{ steps.vars.outputs.repo }}:latest
+            ${{ secrets.AWS_ECR_REPO_NAME }}:latest
+
+            
+          
