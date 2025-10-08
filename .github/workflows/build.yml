@@ -46,7 +46,7 @@ jobs:
           platforms: linux/amd64
           tags: |
             ${{ vars.DOCKER_USERNAME }}/${{ steps.vars.outputs.repo }}:latest
-            ${{ secrets.AWS_ECR_REPO_NAME }}
+            793273043599.dkr.ecr.us-east-2.amazonaws.com/kangarooalpha/readview:latest
 
             
           
