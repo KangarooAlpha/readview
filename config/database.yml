@@ -80,17 +80,16 @@ test:
 #
 production:
   defaults: &defaults
-    adapter: postgres
+    adapter: postgresql
     encoding: utf8
-    database: <%= Rails.application.credentials.dig(AWS_DATABASE_NAME) %>
-    username: <%= Rails.application.credentials.dig(AWS_DATABASE_USERNAME) %>
-    password: <%= Rails.application.credentials.dig(AWS_DATABASE_PASSWORD) %>
-    host: <%= Rails.application.credentials.dig(AWS_DATABASE_HOSTNAME) %>
-    port: <%= Rails.application.credentials.dig(AWS_DATABASE_PORT) %>
+    database: ENV['AWS_DATABASE_NAME']
+    username: ENV['AWS_DATABASE_USERNAME']
+    password: ENV['AWS_DATABASE_PASSWORD']
+    host: ENV['AWS_DATABASE_HOSTNAME']
+    port: ENV['AWS_DATABASE_PORT']
 
   primary:
     <<: *defaults
-    database: readview_production
 
   cable:
     <<: *defaults
