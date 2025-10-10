@@ -82,11 +82,11 @@ production:
   defaults: &defaults
     adapter: postgresql
     encoding: utf8
-    database: ENV['AWS_DATABASE_NAME']
-    username: ENV['AWS_DATABASE_USERNAME']
-    password: ENV['AWS_DATABASE_PASSWORD']
-    host: ENV['AWS_DATABASE_HOSTNAME']
-    port: ENV['AWS_DATABASE_PORT']
+    database: <%= ENV['AWS_DATABASE_NAME'] %>
+    username: <%= ENV['AWS_DATABASE_USERNAME'] %>
+    password: <%= ENV['AWS_DATABASE_PASSWORD'] %>
+    host: <% ENV=['AWS_DATABASE_HOSTNAME'] %>
+    port: <% ENV=['AWS_DATABASE_PORT'] %>
 
   primary:
     <<: *defaults
