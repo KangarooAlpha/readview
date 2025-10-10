@@ -89,3 +89,5 @@ gem "sidekiq"
 gem "redis"
 
 gem "dotenv-rails", groups: [ :development, :test ]
+
+gem "aws-sdk-s3", "~> 1.199"
