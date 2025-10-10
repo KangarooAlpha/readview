@@ -80,8 +80,13 @@ test:
 #
 production:
   defaults: &defaults
-    url: <%= ENV["DATABASE_URL"] %>
-    adapter: postgresql
+    adapter: postgres
+    encoding: utf8
+    database: <%= Rails.application.credentials.dig(AWS_DATABASE_NAME) %>
+    username: <%= Rails.application.credentials.dig(AWS_DATABASE_USERNAME) %>
+    password: <%= Rails.application.credentials.dig(AWS_DATABASE_PASSWORD) %>
+    host: <%= Rails.application.credentials.dig(AWS_DATABASE_HOSTNAME) %>
+    port: <%= Rails.application.credentials.dig(AWS_DATABASE_PORT) %>
 
   primary:
     <<: *defaults
@@ -97,3 +102,5 @@ production:
 
   cache:
     <<: *defaults
+
+  
