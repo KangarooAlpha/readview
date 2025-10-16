@@ -1,152 +1,253 @@
-# [ReadView](https://readview.onrender.com)
+# [ReadView](https://readview.app)
 
-ReadView is a modern Rails 8 application featuring dynamic content creation, rich user interactions, and a clean, responsive UI using Tailwind CSS + Flowbite. Built with Hotwire (Turbo & Stimulus), it provides a smooth single-page-app feel without the complexity of a full front-end framework.
+A production-ready social media application built with Ruby on Rails, featuring real-time interactions, rich media support, and enterprise-grade AWS infrastructure.
+
+---
+
+## 🏗️ Architecture Overview
+
+ReadView is deployed on **AWS** with a highly available, secure multi-tier architecture:
+
+- **Compute:** ECS (Elastic Container Service) for container orchestration
+- **Database:** RDS PostgreSQL with automated backups
+- **Cache/Jobs:** ElastiCache Redis for background job processing (Sidekiq)
+- **Storage:** S3 for user-uploaded media (images/videos)
+- **Networking:** Application Load Balancer across 2 availability zones
+- **Security:** Private subnets for application/data layers, public subnets for load balancer
+- **CI/CD:** GitHub Actions → ECR → ECS automated deployment pipeline
+
+### Security Architecture
+- **Network Segmentation:** Application runs in private subnets, isolated from direct internet access
+- **Load Balancer Gateway:** Public-facing ALB forwards traffic to private ECS tasks
+- **Security Groups:** Least-privilege access controls between layers
+- **Managed Services:** AWS-managed database, cache, and storage with built-in security
 
 ---
 
 ## ✨ Features
 
-### ✅ Core Functionality
-- 📄 **User Registration & Authentication** via Devise
+### User Management
+- 🔐 **Authentication** via Devise (email/password)
+- 🌐 **Social Login** with Google and GitHub (OAuth)
 - 👤 **User Profiles** with avatars and custom usernames
-- 📝 **Post Creation** with:
-  - Text
-  - Images (multiple uploads)
-  - Video uploads
-- 💬 **Commenting System**
-  - Nested replies (Threaded comments)
-  - Real-time updates using Turbo Frames
-- ⬆️⬇️ **Post & Comment Reactions**
-  - Like/Dislike system
-- 👥 **User Following System**
-  - Follow/unfollow other users
-- 🔍 **Omniauth Login Support**
-  - Google and GitHub social login
+- 👥 **Follow System** to build your network
 
----
+### Content Creation
+- 📝 **Rich Posts** with text, multiple images, and video
+- 💬 **Nested Comments** with threaded replies
+- ⬆️⬇️ **Reactions** (likes/dislikes) on posts and comments
+- 📷 **Media Uploads** stored securely on AWS S3
 
-## 🎨 UI/UX
-- Built with **Tailwind CSS** and **Flowbite** for a beautiful, accessible interface.
-- Fully responsive design.
-- Animated transitions on interactions.
-- Button, card, and form components styled with consistency across all views.
+### Real-Time Interactions
+- ⚡ **Hotwire (Turbo Streams)** for instant updates without page reloads
+- 🔄 **Live Reactions** update immediately across all users
+- 💬 **Dynamic Comments** appear inline without refreshing
 
 ---
 
 ## 🛠️ Tech Stack
 
 ### Backend
-- Ruby on Rails 7
-- PostgreSQL
-- Redis (for caching and background job processing)
-- Sidekiq (background jobs)
+- **Ruby on Rails** - Web framework
+- **PostgreSQL** (AWS RDS) - Relational database
+- **Redis** (AWS ElastiCache) - Caching and background jobs
+- **Sidekiq** - Asynchronous job processing
+- **ActiveStorage** - File upload handling with S3
 
 ### Frontend
-- Hotwire (Turbo, Stimulus)
-- Tailwind CSS (via Tailwind Rails)
-- Flowbite
-- Swiper
+- **Hotwire** (Turbo + Stimulus) - SPA-like experience without JavaScript frameworks
+- **Tailwind CSS** - Utility-first styling
+- **Flowbite** - UI component library
+- **SwiperJS** - Image carousel
 
-### Infrastructure
+### Infrastructure & DevOps
+- **Docker** - Containerization
+- **AWS ECS** - Container orchestration
+- **AWS ECR** - Container registry
+- **AWS S3** - Object storage
+- **AWS RDS** - Managed PostgreSQL
+- **AWS ElastiCache** - Managed Redis
+- **Application Load Balancer** - Traffic distribution
+- **GitHub Actions** - CI/CD pipeline
+
+### Authentication
+- **Devise** - User authentication
+- **OmniAuth** - OAuth integration (Google, GitHub)
+
+---
+
+## 🚀 Deployment
+
+### Production (AWS)
+
+The application is deployed on AWS with a secure, highly available architecture:
+
+**Architecture Flow:**
+```
+GitHub Push → GitHub Actions CI/CD
+    ↓
+Docker Image Build → Push to ECR
+    ↓
+ECS Task Definition Update → Deploy to ECS
+    ↓
+Load Balancer (Public Subnet) → ECS Tasks (Private Subnet)
+    ↓
+Application connects to:
+    - RDS PostgreSQL (Private Subnet)
+    - ElastiCache Redis (Private Subnet)
+    - S3 (Media Storage)
+```
+
+**High Availability:**
+- Multi-AZ deployment across 2 availability zones
+- Load Balancer distributes traffic for redundancy
+- Managed services (RDS, ElastiCache) with automatic failover
+
+**Security:**
+- Application and database in private subnets (no direct internet access)
+- Security groups enforce least-privilege access
+- Media files stored securely in S3 with presigned URLs
+
+### CI/CD Pipeline
+
+Automated deployment via GitHub Actions:
+1. Run tests on push to main branch
+2. Build Docker image
+3. Push image to AWS ECR
+4. Update ECS task definition with new image
+5. Deploy to ECS cluster
+
+---
+
+## 💻 Local Development
+
+### Prerequisites
+- Ruby 3.x
+- Node.js & Yarn
+- PostgreSQL
 - Redis
-- Postgres
-- Puma (web server)
 
-### Deployment
-- Render
----
+### Setup
 
-## 📷 Media Support
-
-- Upload **multiple images** per post.
-- Upload **one video** per post.
-- Image carousel (using SwiperJS).
-- Media is handled with ActiveStorage and rendered in responsive containers.
-
----
-
-## ⚡ Turbo & Turbo Frames
-
-The app leverages **Turbo Frames** and **Turbo Streams** to:
-- Update likes/dislikes without page reloads.
-- Render new comments inline via frame nesting.
-- Load forms dynamically (e.g., replies, editing).
-
----
-
-## 🔐 Authentication
-
-- Devise handles registration, login, password management.
-- Users can optionally upload avatars.
-- Social login enabled via **Omniauth** (Google, GitHub).
-
----
-## 🐳 Running the App with Docker
-This project is fully Dockerized for easy setup and deployment. Follow the steps below to run the app in containers.
-### ⚙️ Prerequisites
-- Docker installed
-- Docker Compose
-### 📁 1. Clone the Repository
-```
-git clone https://github.com/your-username/your-repo-name.git
-cd your-repo-name
-```
-### 🔐 2. Add Your Environment Variables
-Create a .env file in the root directory with the following contents:
-```
-RAILS_MASTER_KEY=your_master_key_here
-```
-### 🛠️ 3. Build and Start the App
-Run the following command to build and start all services:
-```
-docker-compose up --build
-```
-This will:
-- Build your Rails app image
-- Start:
-    - PostgreSQL (db)
-    - Redis (redis)
-    - Rails server (web)
-    - Sidekiq (sidekiq)
-
-The app will be available at:
-http://localhost:3000
-
-## 🧪 Running Locally
-
-### 1. Clone the repo
+1. **Clone the repository**
 ```bash
-git clone https://github.com/KangarooAlpha/ReadView
+git clone https://github.com/KangarooAlpha/ReadView.git
+cd ReadView
 ```
-2. Install dependencies
-```
+
+2. **Install dependencies**
+```bash
 bundle install
-yarn install --check-files
+yarn install
 ```
-3. Setup the database
-```
+
+3. **Setup database**
+```bash
 rails db:create db:migrate db:seed
 ```
-4. Run the server
+
+4. **Configure environment variables**
+Create a `.env` file:
+```env
+RAILS_MASTER_KEY=your_master_key
+DATABASE_URL=postgresql://localhost/readview_development
+REDIS_URL=redis://localhost:6379/0
 ```
+
+5. **Start the server**
+```bash
 bin/dev
 ```
-Visit http://localhost:3000 to explore the app!
 
-## 📦 Dependencies
-- Tailwind CSS
-- Flowbite
-- Devise
-- Omniauth Google & GitHub
-- Turbo (Hotwire)
-- Stimulus
-- SwiperJS
+Visit `http://localhost:3000`
 
-## 📌 Todo / Roadmap
- - User Feed (posts from followed users)
- - Notifications (likes/comments/replies)
- - Search functionality
- - Infinite scrolling for posts
+---
+
+## 🐳 Docker Development
+
+Run the entire stack with Docker Compose:
+
+```bash
+# Build and start all services
+docker-compose up --build
+
+# Access the app at http://localhost:3000
+```
+
+**Services:**
+- `web` - Rails application
+- `db` - PostgreSQL database
+- `redis` - Redis cache/job queue
+- `sidekiq` - Background job processor
+
+---
+
+## 🧪 Testing
+
+```bash
+# Run test suite
+rails test
+
+# Run with coverage
+COVERAGE=true rails test
+```
+
+---
+
+## 📦 Key Dependencies
+
+- `rails` - Web framework
+- `devise` - Authentication
+- `omniauth-google-oauth2` - Google OAuth
+- `omniauth-github` - GitHub OAuth
+- `turbo-rails` - Hotwire Turbo
+- `stimulus-rails` - Hotwire Stimulus
+- `tailwindcss-rails` - Tailwind CSS
+- `sidekiq` - Background jobs
+- `aws-sdk-s3` - S3 integration
+- `redis` - Caching and job queue
+
+---
+
+## 🗺️ Roadmap
+
+- [ ] User feed (chronological posts from followed users)
+- [ ] Real-time notifications
+- [ ] Search functionality (users and posts)
+- [ ] Trending posts algorithm
+
+---
+
+## 📈 Performance Optimizations
+
+- **Caching:** Redis caching for frequently accessed data
+- **Background Jobs:** Email sending and media processing offloaded to Sidekiq
+- **CDN:** S3 for efficient media delivery
+- **Database Indexing:** Optimized queries for follows, comments, reactions
+- **Eager Loading:** N+1 query prevention
+
+---
+
+## 🔒 Security Features
+
+- Secure password storage (bcrypt via Devise)
+- OAuth 2.0 for social login
+- Private subnet isolation for sensitive resources
+- Security group access controls
+- Presigned S3 URLs for media access
+
+---
 
 ## 📄 License
+
 MIT License
+
+---
+
+## 🙏 Acknowledgments
+
+Built as a learning project to explore:
+- Production-grade AWS architecture
+- Rails with Hotwire for modern web apps
+- Containerized deployment with Docker and ECS
+- CI/CD automation with GitHub Actions
