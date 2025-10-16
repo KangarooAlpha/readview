@@ -30,6 +30,14 @@ Rails.application.configure do
   # Force all access to the app over SSL, use Strict-Transport-Security, and use secure cookies.
   config.force_ssl = true
 
+  # Configure headers for load balancer
+  config.action_dispatch.trusted_proxies =
+    %w[127.0.0.1 ::1].map { |proxy| IPAddr.new(proxy) } +
+    [ IPAddr.new("10.0.0.0/16") ]
+
+  # Disable strict origin checking
+  config.action_controller.forgery_protection_origin_check = false
+
   # Skip http-to-https redirect for the default health check endpoint.
   # config.ssl_options = { redirect: { exclude: ->(request) { request.path == "/up" } } }
 
